@@ -2,7 +2,7 @@
 # Site Settings
 # ==============================================================================
 locale                   : "ko-KR"
-title                    : "Research Archive"
+title                    : "Choonsikmom Archive"
 title_separator          : "-"
 subtitle                 : "Robotics & AI Paper Reviews"
 name                     : "Yeseul Jeong"
@@ -29,8 +29,8 @@ lunr:
 # Author (사이드바 프로필)
 # ==============================================================================
 author:
-  name             : "Yeseul Jeong"
-  avatar           : # "/assets/images/avatar.png"  # 원하는 프로필 이미지 경로
+  name             : "Choonsikmom"
+  avatar           : "/assets/images/choonsik.png"
   bio              : "Robotics & AI 논문을 읽고 기록합니다."
   location         : "Seoul, Korea"
   links:

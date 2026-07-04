@@ -3,7 +3,7 @@ title: "[공부] 예시 - 공부 노트 템플릿"
 excerpt: "논문 리뷰가 아닌 개념 정리/공부 노트가 어떻게 보이는지 확인하는 예시 글입니다."
 categories:
   - 공부
-  - Math
+  - AI
 tags:
   - linear algebra
   - sample

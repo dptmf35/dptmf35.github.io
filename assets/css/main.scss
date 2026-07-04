@@ -43,3 +43,32 @@ code, pre, kbd, samp {
   font-family: "D2Coding", "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
                Courier, monospace;
 }
+
+/* --------------------------------------------------------------------------
+   사이드바 메뉴 스타일 (메인 메뉴 크게, 서브 카테고리 정돈)
+   -------------------------------------------------------------------------- */
+.sidebar {
+  // 메인 메뉴 (전체 게시글 / 논문리뷰 / 공부)
+  .nav__list .nav__items > li > .nav__sub-title,
+  .nav__list .nav__items > li > a > .nav__sub-title {
+    font-size: 1.05em;      // 메인 메뉴 폰트 키움
+    font-weight: 700;
+    text-transform: none;   // 한글이라 대문자 변환 해제
+    letter-spacing: 0;
+    margin-top: 0.75em;
+  }
+
+  // 메인 메뉴 링크 hover
+  .nav__list .nav__items > li > a:hover .nav__sub-title {
+    color: mix(#000, $link-color, 25%);
+  }
+
+  // 서브 카테고리 (AI / CV / NLP / RL / Robotics)
+  .nav__list .nav__items ul li a {
+    font-size: 0.85em;
+    padding: 0.25em 0;
+    &.active {
+      font-weight: 700;
+    }
+  }
+}

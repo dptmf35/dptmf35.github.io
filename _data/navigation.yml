@@ -9,11 +9,31 @@ main:
 
 # 왼쪽 사이드바 메뉴 (프로필 아래에 표시)
 sidebar-menu:
-  - title: "📂 Menu"
+  - title: "전체 게시글"
+    url: /posts/
+  - title: "논문리뷰"
+    url: /paper-reviews/
     children:
-      - title: "전체 게시글"
-        url: /posts/
-      - title: "논문리뷰"
-        url: /paper-reviews/
-      - title: "공부"
-        url: /study/
+      - title: "AI"
+        url: /paper-reviews/ai/
+      - title: "CV"
+        url: /paper-reviews/cv/
+      - title: "NLP"
+        url: /paper-reviews/nlp/
+      - title: "RL"
+        url: /paper-reviews/rl/
+      - title: "Robotics"
+        url: /paper-reviews/robotics/
+  - title: "공부"
+    url: /study/
+    children:
+      - title: "AI"
+        url: /study/ai/
+      - title: "CV"
+        url: /study/cv/
+      - title: "NLP"
+        url: /study/nlp/
+      - title: "RL"
+        url: /study/rl/
+      - title: "Robotics"
+        url: /study/robotics/
