@@ -65,8 +65,8 @@ code, pre, kbd, samp {
 
   // 서브 카테고리 (AI / CV / NLP / RL / Robotics)
   .nav__list .nav__items ul li a {
-    font-size: 0.95em;
-    padding: 0.3em 0;
+    font-size: 0.9rem;   // 약 14.4px
+    padding: 0.35em 0;
     &.active {
       font-weight: 700;
     }
