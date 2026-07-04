@@ -4,7 +4,7 @@
 locale                   : "ko-KR"
 title                    : "Choonsikmom Archive"
 title_separator          : "-"
-subtitle                 : "Robotics & AI Paper Reviews"
+subtitle                 :
 name                     : "Yeseul Jeong"
 description              : "로보틱스와 인공지능 논문을 읽고 정리하는 개인 공부 아카이브"
 url                      : "https://dptmf35.github.io"
@@ -31,7 +31,7 @@ lunr:
 author:
   name             : "Choonsikmom"
   avatar           : "/assets/images/choonsik.png"
-  bio              : "Robotics & AI 논문을 읽고 기록합니다."
+  bio              : "춘식이와 떠나는 개발여행"
   location         : "Seoul, Korea"
   links:
     - label: "GitHub"
@@ -42,13 +42,10 @@ author:
       url: "mailto:yeseuljeong77@gmail.com"
 
 # ==============================================================================
-# Site Footer
+# Site Footer (Follow 링크/Feed 숨김, 저작권만 표시)
 # ==============================================================================
-footer:
-  links:
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      url: "https://github.com/dptmf35"
+atom_feed:
+  hide: true
 
 # ==============================================================================
 # Reading Files

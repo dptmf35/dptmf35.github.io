@@ -1,0 +1,39 @@
+{% assign locale = include.locale | default: site.locale %}
+<nav class="nav__list">
+  {% if page.sidebar.title %}<h3 class="nav__title" style="padding-left: 0;">{{ page.sidebar.title }}</h3>{% endif %}
+  <input id="ac-toc" name="accordion-toc" type="checkbox" />
+  <label for="ac-toc">{{ site.data.ui-text[locale].menu_label | default: "Toggle Menu" }}</label>
+  <ul class="nav__items">
+    {% for navname in include.nav %}
+      {% assign navigation = site.data.navigation[navname] %}
+      {% for nav in navigation %}
+        {% comment %} 상위 메뉴 게시글 수 계산 {% endcomment %}
+        {% assign topcount = nil %}
+        {% if nav.url == '/posts/' %}
+          {% assign topcount = site.posts | size %}
+        {% elsif nav.count_category %}
+          {% assign topcount = site.categories[nav.count_category] | size %}
+        {% endif %}
+        <li>
+          {% if nav.url %}
+            <a href="{{ nav.url | relative_url }}"><span class="nav__sub-title">{{ nav.title }}{% if topcount %} ({{ topcount }}){% endif %}</span></a>
+          {% else %}
+            <span class="nav__sub-title">{{ nav.title }}</span>
+          {% endif %}
+
+          {% if nav.children != null %}
+          {% assign parent = nav.count_category %}
+          <ul>
+            {% for child in nav.children %}
+              {% comment %} 자식 카테고리(분야) 안에서 상위 카테고리에도 속한 글만 카운트 {% endcomment %}
+              {% assign childposts = site.categories[child.title] | where_exp: "item", "item.categories contains parent" %}
+              {% assign childcount = childposts | size %}
+              <li><a href="{{ child.url | relative_url }}"{% if child.url == page.url %} class="active"{% endif %}>{{ child.title }} ({{ childcount }})</a></li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </li>
+      {% endfor %}
+    {% endfor %}
+  </ul>
+</nav>

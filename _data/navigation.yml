@@ -8,11 +8,13 @@ main:
     url: /search/
 
 # 왼쪽 사이드바 메뉴 (프로필 아래에 표시)
+# count_category: 게시글 수 계산 및 자식 필터링에 쓰이는 상위 카테고리
 sidebar-menu:
   - title: "전체 게시글"
     url: /posts/
   - title: "논문리뷰"
     url: /paper-reviews/
+    count_category: "논문리뷰"
     children:
       - title: "AI"
         url: /paper-reviews/ai/
@@ -26,6 +28,7 @@ sidebar-menu:
         url: /paper-reviews/robotics/
   - title: "공부"
     url: /study/
+    count_category: "공부"
     children:
       - title: "AI"
         url: /study/ai/

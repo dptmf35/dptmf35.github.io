@@ -1,0 +1,2 @@
+{% assign locale = include.locale | default: site.locale %}
+<div class="page__footer-copyright">&copy; {% assign site_time = site.time | date: '%Y' %}{% if site.footer.since and site_time != site.footer.since %}{{ site.footer.since }} - {% endif %}{{ site_time }} {{ site.title | escape_once | strip }}.</div>
