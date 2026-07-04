@@ -12,8 +12,8 @@ baseurl                  : ""
 repository               : "dptmf35/dptmf35.github.io"
 words_per_minute         : 200
 
-# 테마 (GitHub Pages에서 gem 대신 remote_theme 사용)
-remote_theme             : "mmistakes/minimal-mistakes@4.26.2"
+# 테마 (Gemfile의 minimal-mistakes-jekyll gem 사용 — 로컬/Actions 빌드 공통)
+theme                    : minimal-mistakes-jekyll
 minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # ------------------------------------------------------------------------------

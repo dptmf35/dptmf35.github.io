@@ -4,8 +4,7 @@
 
 @charset "utf-8";
 
-/* Pretendard 웹폰트 로드 (jsDelivr CDN) */
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+/* Pretendard 웹폰트는 _includes/head/custom.html 에서 <link>로 로드합니다 */
 
 /* --------------------------------------------------------------------------
    Minimal Mistakes 변수 오버라이드 — 테마 import 이전에 선언해야 적용됨
