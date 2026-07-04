@@ -1,0 +1,46 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@charset "utf-8";
+
+/* Pretendard 웹폰트 로드 (jsDelivr CDN) */
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css");
+
+/* --------------------------------------------------------------------------
+   Minimal Mistakes 변수 오버라이드 — 테마 import 이전에 선언해야 적용됨
+   -------------------------------------------------------------------------- */
+$sans-serif: "Pretendard Variable", "Pretendard", -apple-system, BlinkMacSystemFont,
+             "Apple SD Gothic Neo", "Roboto", "Noto Sans KR", "Segoe UI",
+             "Malgun Gothic", sans-serif !default;
+
+$serif: "Pretendard Variable", "Pretendard", "Noto Serif KR", Georgia,
+        "Times New Roman", serif !default;
+
+// 본문 폰트도 Pretendard로 통일
+$global-font-family: $sans-serif;
+$header-font-family: $sans-serif;
+
+/* 테마 불러오기 (skin은 _config.yml의 minimal_mistakes_skin 설정을 따름) */
+@import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}";
+@import "minimal-mistakes";
+
+/* --------------------------------------------------------------------------
+   커스텀 스타일
+   -------------------------------------------------------------------------- */
+html {
+  font-size: 16px; // 기본 폰트 크기
+}
+
+body {
+  font-family: $sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  word-break: keep-all; // 한글 줄바꿈이 어절 단위로 되도록
+}
+
+// 코드 블록은 고정폭 폰트 유지
+code, pre, kbd, samp {
+  font-family: "D2Coding", "SFMono-Regular", Consolas, "Liberation Mono", Menlo,
+               Courier, monospace;
+}

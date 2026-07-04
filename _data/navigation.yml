@@ -1,0 +1,14 @@
+# 상단 네비게이션 바
+main:
+  - title: "Home"
+    url: /
+  - title: "Categories"
+    url: /categories/
+  - title: "Tags"
+    url: /tags/
+  - title: "Archive"
+    url: /year-archive/
+  - title: "About"
+    url: /about/
+  - title: "Search"
+    url: /search/
