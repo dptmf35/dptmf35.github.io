@@ -1,14 +1,19 @@
-# 상단 네비게이션 바
+# 상단 네비게이션 바 (유틸리티만 슬림하게)
 main:
-  - title: "Home"
-    url: /
-  - title: "Categories"
-    url: /categories/
   - title: "Tags"
     url: /tags/
-  - title: "Archive"
-    url: /year-archive/
   - title: "About"
     url: /about/
   - title: "Search"
     url: /search/
+
+# 왼쪽 사이드바 메뉴 (프로필 아래에 표시)
+sidebar-menu:
+  - title: "📂 Menu"
+    children:
+      - title: "전체 게시글"
+        url: /posts/
+      - title: "논문리뷰"
+        url: /paper-reviews/
+      - title: "공부"
+        url: /study/

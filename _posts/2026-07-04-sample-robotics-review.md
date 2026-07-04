@@ -2,8 +2,8 @@
 title: "[논문리뷰] 예시 - Robotics 논문 리뷰 템플릿"
 excerpt: "Robotics 카테고리 논문 리뷰가 어떻게 보이는지 확인하는 예시 글입니다."
 categories:
+  - 논문리뷰
   - Robotics
-  - Manipulation
 tags:
   - imitation learning
   - manipulation

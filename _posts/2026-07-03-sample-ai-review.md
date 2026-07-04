@@ -2,8 +2,8 @@
 title: "[논문리뷰] 예시 - AI 논문 리뷰 템플릿"
 excerpt: "AI / Computer Vision 카테고리 논문 리뷰 예시 글입니다."
 categories:
+  - 논문리뷰
   - AI
-  - Computer Vision
 tags:
   - transformer
   - vision

@@ -162,13 +162,19 @@ compress_html:
 # Defaults (모든 포스트/페이지 기본값)
 # ==============================================================================
 defaults:
+  # 모든 문서: 왼쪽 사이드바에 프로필 + 메뉴 표시
+  - scope:
+      path: ""
+    values:
+      author_profile: true
+      sidebar:
+        nav: "sidebar-menu"
   # _posts
   - scope:
       path: ""
       type: posts
     values:
       layout: single
-      author_profile: true
       read_time: true
       comments: # true
       share: true
@@ -183,4 +189,3 @@ defaults:
       type: pages
     values:
       layout: single
-      author_profile: true
