@@ -1,0 +1,51 @@
+<svg viewBox="0 0 880 560" xmlns="http://www.w3.org/2000/svg" font-family="Pretendard, 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="9" refX="6" refY="4.5" orient="auto">
+      <path d="M0,0 L8,4.5 L0,9 z" fill="#8a9199"/>
+    </marker>
+  </defs>
+
+  <!-- root -->
+  <rect x="300" y="18" width="280" height="46" rx="12" fill="#e9f1fb" stroke="#b9d0ec"/>
+  <text x="440" y="46" text-anchor="middle" font-size="17" font-weight="700" fill="#2c5aa0">로봇 비전을 위한 3D Reconstruction</text>
+
+  <!-- connectors root->branches -->
+  <path d="M440,64 L440,86 M200,86 L680,86 M200,86 L200,110 M680,86 L680,110" stroke="#8a9199" fill="none" stroke-width="1.4" marker-end="url(#ar)"/>
+
+  <!-- branch 1 : geometry (blue) -->
+  <rect x="60" y="110" width="280" height="42" rx="11" fill="#e9f1fb" stroke="#b9d0ec"/>
+  <text x="200" y="137" text-anchor="middle" font-size="15" font-weight="700" fill="#2c5aa0">1. 기초 기하학 및 수학</text>
+
+  <path d="M200,152 L200,178" stroke="#8a9199" fill="none" stroke-width="1.3" marker-end="url(#ar)"/>
+  <rect x="60" y="180" width="280" height="52" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="200" y="202" text-anchor="middle" font-size="13" font-weight="600" fill="#333">Camera Calibration</text>
+  <text x="200" y="221" text-anchor="middle" font-size="11.5" fill="#6b7178">내부·외부 파라미터 추정</text>
+
+  <path d="M200,232 L200,252" stroke="#8a9199" fill="none" stroke-width="1.3" marker-end="url(#ar)"/>
+  <rect x="60" y="254" width="280" height="52" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="200" y="276" text-anchor="middle" font-size="13" font-weight="600" fill="#333">다중 시점 기하학</text>
+  <text x="200" y="295" text-anchor="middle" font-size="11.5" fill="#6b7178">epipolar geometry · 특징점 매칭</text>
+
+  <!-- branch 2 : representation (green) -->
+  <rect x="540" y="110" width="280" height="42" rx="11" fill="#e6f4ea" stroke="#b7dcc0"/>
+  <text x="680" y="137" text-anchor="middle" font-size="15" font-weight="700" fill="#2e7d46">2. 3D 데이터 표현 및 처리</text>
+
+  <path d="M680,152 L680,178" stroke="#8a9199" fill="none" stroke-width="1.3" marker-end="url(#ar)"/>
+  <rect x="540" y="180" width="280" height="52" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="680" y="202" text-anchor="middle" font-size="13" font-weight="600" fill="#333">point cloud</text>
+  <text x="680" y="221" text-anchor="middle" font-size="11.5" fill="#6b7178">노이즈 제거 · downsampling</text>
+
+  <path d="M680,232 L680,252" stroke="#8a9199" fill="none" stroke-width="1.3" marker-end="url(#ar)"/>
+  <rect x="540" y="254" width="280" height="66" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="680" y="276" text-anchor="middle" font-size="13" font-weight="600" fill="#333">voxel · volume 표현</text>
+  <text x="680" y="295" text-anchor="middle" font-size="11.5" fill="#6b7178">TSDF voxel grid</text>
+  <text x="680" y="311" text-anchor="middle" font-size="11.5" fill="#6b7178">Marching Cubes → mesh 표면 추출</text>
+
+  <path d="M680,320 L680,340" stroke="#8a9199" fill="none" stroke-width="1.3" marker-end="url(#ar)"/>
+  <rect x="540" y="342" width="280" height="52" rx="10" fill="#fbeed6" stroke="#e6cfa0"/>
+  <text x="680" y="364" text-anchor="middle" font-size="13" font-weight="700" fill="#b5761a">신경망 기반 표현</text>
+  <text x="680" y="383" text-anchor="middle" font-size="11.5" fill="#b5761a">NeRF · 3DGS</text>
+
+  <!-- caption -->
+  <text x="440" y="440" text-anchor="middle" font-size="12.5" fill="#6b7178">기하학으로 카메라와 대응을 풀고 → point cloud·voxel·mesh로 표현하고 → 신경망 표현으로 확장한다</text>
+</svg>

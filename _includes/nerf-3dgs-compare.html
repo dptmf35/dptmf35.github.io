@@ -1,0 +1,264 @@
+<!-- NeRF vs 3DGS 렌더링 비교 인터랙티브 위젯 (self-contained, no deps) -->
+<div class="n3d-card" id="n3d-root">
+  <div class="n3d-head">
+    <h3 class="n3d-title">NeRF vs 3DGS 렌더링 비교</h3>
+    <div class="n3d-ctrl">
+      <button type="button" class="n3d-btn" data-act="toggle" aria-label="재생/일시정지">❚❚</button>
+      <button type="button" class="n3d-btn" data-act="reset" aria-label="리셋">↺</button>
+    </div>
+  </div>
+
+  <canvas class="n3d-canvas" aria-label="NeRF와 3DGS 렌더링 과정 애니메이션"></canvas>
+
+  <div class="n3d-bars">
+    <div class="n3d-bar-row">
+      <span class="n3d-bar-label">렌더링 속도 (FPS)</span>
+      <span class="n3d-bar-track"><span class="n3d-bar-fill n3d-fps"></span></span>
+    </div>
+    <div class="n3d-bar-row">
+      <span class="n3d-bar-label">연산 부하 (GPU)</span>
+      <span class="n3d-bar-track"><span class="n3d-bar-fill n3d-gpu"></span></span>
+    </div>
+  </div>
+
+  <div class="n3d-info">
+    <div class="n3d-info-col">
+      <div class="n3d-info-key">데이터 구조</div>
+      <div class="n3d-info-val" data-info="structure"></div>
+    </div>
+    <div class="n3d-info-col">
+      <div class="n3d-info-key">렌더링 원리</div>
+      <div class="n3d-info-val" data-info="render"></div>
+    </div>
+    <div class="n3d-info-col">
+      <div class="n3d-info-key">Sim2Real 연동</div>
+      <div class="n3d-info-val" data-info="sim2real"></div>
+    </div>
+  </div>
+
+  <div class="n3d-foot">
+    <span class="n3d-foot-label">렌더링 모드</span>
+    <div class="n3d-switch">
+      <button type="button" class="n3d-arrow" data-act="prev" aria-label="이전 모드">‹</button>
+      <span class="n3d-mode-name" data-role="mode-name">NeRF</span>
+      <button type="button" class="n3d-arrow" data-act="next" aria-label="다음 모드">›</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .n3d-card{background:#0e1320;border:1px solid #222a3a;border-radius:14px;padding:18px 18px 14px;
+    color:#e7ecf5;font-family:Pretendard,'Malgun Gothic',sans-serif;max-width:760px;margin:22px auto;}
+  .n3d-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;}
+  .n3d-title{margin:0;font-size:20px;font-weight:700;color:#f2f5fb;}
+  .n3d-ctrl{display:flex;gap:8px;}
+  .n3d-btn{width:40px;height:34px;border-radius:9px;border:1px solid #2c3548;
+    background:#1b2740;color:#dfe6f2;font-size:13px;cursor:pointer;line-height:1;}
+  .n3d-btn:hover{background:#243258;}
+  .n3d-canvas{display:block;width:100%;height:auto;border-radius:8px;}
+  .n3d-bars{margin:12px 2px 2px;display:flex;flex-direction:column;gap:9px;}
+  .n3d-bar-row{display:flex;align-items:center;gap:12px;font-size:13px;color:#aeb8c9;}
+  .n3d-bar-label{flex:0 0 118px;text-align:right;}
+  .n3d-bar-track{flex:1;height:12px;background:#20293a;border-radius:6px;overflow:hidden;}
+  .n3d-bar-fill{display:block;height:100%;width:0;border-radius:6px;transition:width .5s ease,background .4s ease;}
+  .n3d-fps{background:#3ec98a;}
+  .n3d-gpu{background:#e59090;}
+  .n3d-info{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:center;
+    margin:16px 0 4px;padding:14px 0;border-top:1px solid #222b3c;border-bottom:1px solid #222b3c;}
+  .n3d-info-key{font-size:14px;color:#8fa6d6;margin-bottom:6px;}
+  .n3d-info-val{font-size:13px;color:#dbe3f0;line-height:1.4;padding:0 4px;}
+  .n3d-foot{display:flex;align-items:center;gap:14px;margin-top:12px;}
+  .n3d-foot-label{font-size:14px;color:#aeb8c9;flex:0 0 auto;}
+  .n3d-switch{flex:1;display:flex;align-items:center;justify-content:space-between;
+    background:#161d2c;border:1px solid #232c3e;border-radius:9px;padding:4px 6px;}
+  .n3d-arrow{background:none;border:none;color:#9fb0cc;font-size:20px;cursor:pointer;padding:2px 12px;line-height:1;}
+  .n3d-arrow:hover{color:#fff;}
+  .n3d-mode-name{font-size:15px;font-weight:700;color:#f0f4fb;letter-spacing:.3px;}
+  @media (max-width:520px){.n3d-info{grid-template-columns:1fr;gap:6px;} .n3d-bar-label{flex-basis:96px;}}
+</style>
+
+<script>
+(function(){
+  var root = document.getElementById('n3d-root');
+  if(!root || root.dataset.init) return;
+  root.dataset.init = '1';
+
+  var canvas = root.querySelector('.n3d-canvas');
+  var ctx = canvas.getContext('2d');
+  var toggleBtn = root.querySelector('[data-act=toggle]');
+  var modeName = root.querySelector('[data-role=mode-name]');
+  var fpsFill = root.querySelector('.n3d-fps');
+  var gpuFill = root.querySelector('.n3d-gpu');
+
+  var DATA = {
+    nerf: { name:'NeRF', fps:24, gpu:90,
+      structure:'암시적 인공신경망 (MLP)', render:'볼륨 렌더링 (Ray Marching)',
+      sim2real:'매우 어려움 (부피 데이터)' },
+    dgs:  { name:'3DGS', fps:95, gpu:32,
+      structure:'명시적 가우시안 점군 (Splat)', render:'타원체 투사 및 래스터화',
+      sim2real:'용이함 (명시적 기하 구조)' }
+  };
+  var order = ['nerf','dgs'];
+  var mode = 'nerf';
+  var playing = true;
+  var t = 0;
+  var Wlog = 720, Hlog = 360;
+
+  function resize(){
+    var w = Math.max(280, root.clientWidth - 36);
+    Wlog = w; Hlog = Math.round(w * 0.5);
+    if(Hlog > 380) Hlog = 380;
+    var dpr = window.devicePixelRatio || 1;
+    canvas.width = Wlog * dpr;
+    canvas.height = Hlog * dpr;
+    canvas.style.height = Hlog + 'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+
+  // fixed gaussian blobs (logical fractions of scene)
+  var blobs = [
+    {x:0.60,y:0.42,rx:0.075,ry:0.055,rot:-0.5,c:'70,209,139'},
+    {x:0.66,y:0.55,rx:0.090,ry:0.060,rot:0.4,c:'91,141,239'},
+    {x:0.72,y:0.40,rx:0.070,ry:0.048,rot:0.9,c:'70,209,139'},
+    {x:0.70,y:0.58,rx:0.055,ry:0.070,rot:-0.3,c:'91,141,239'},
+    {x:0.63,y:0.50,rx:0.060,ry:0.045,rot:0.2,c:'70,209,139'},
+    {x:0.76,y:0.52,rx:0.050,ry:0.040,rot:1.1,c:'91,141,239'}
+  ];
+
+  function draw(){
+    var W = Wlog, H = Hlog;
+    ctx.clearRect(0,0,W,H);
+    var camX = W*0.10, camY = H*0.52;
+    var planeX = W*0.27, planeTop = H*0.20, planeBot = H*0.82;
+    var xEnd = W - 24;
+    var rays = 5;
+    var accent = mode==='nerf' ? '#5b8def' : '#46d18b';
+
+    // rays (camera -> through image plane -> scene)
+    ctx.strokeStyle = 'rgba(150,168,200,0.28)';
+    ctx.lineWidth = 1;
+    var rayY = [];
+    for(var i=0;i<rays;i++){
+      var yp = planeTop + (planeBot-planeTop)*(i/(rays-1));
+      rayY.push(yp);
+      var dx = (planeX-camX), dy = (yp-camY);
+      var yEnd = camY + dy*((xEnd-camX)/dx);
+      ctx.beginPath(); ctx.moveTo(camX,camY); ctx.lineTo(xEnd,yEnd); ctx.stroke();
+    }
+
+    // dashed horizon
+    ctx.save(); ctx.setLineDash([5,5]); ctx.strokeStyle='rgba(150,168,200,0.22)';
+    ctx.beginPath(); ctx.moveTo(planeX, H*0.86); ctx.lineTo(xEnd, H*0.86); ctx.stroke(); ctx.restore();
+
+    // image plane
+    ctx.strokeStyle = accent; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(planeX,planeTop); ctx.lineTo(planeX,planeBot); ctx.stroke();
+    label('Image Plane', planeX, planeTop-10, '#c7d2e6', 'center');
+
+    if(mode==='nerf'){
+      // sampling points marching along each ray
+      var per = 6;
+      for(var r=0;r<rays;r++){
+        var yp = rayY[r];
+        var dx2=(planeX-camX), dy2=(yp-camY);
+        for(var k=0;k<per;k++){
+          var phase = (k/per + (t*0.12)) % 1;
+          var sx = planeX + (xEnd-planeX)*phase;
+          var sy = camY + dy2*((sx-camX)/dx2);
+          if(sy<H*0.08 || sy>H*0.92) continue;
+          var a = 0.35 + 0.55*Math.sin(phase*Math.PI);
+          ctx.fillStyle='rgba(91,141,239,'+a.toFixed(2)+')';
+          ctx.beginPath(); ctx.arc(sx,sy,3.4,0,7); ctx.fill();
+        }
+      }
+      pill('Volume Sampling', W*0.62, H*0.16);
+    } else {
+      // gaussian ellipsoids
+      for(var b=0;b<blobs.length;b++){
+        var bl=blobs[b];
+        ctx.save();
+        ctx.translate(bl.x*W, bl.y*H); ctx.rotate(bl.rot);
+        ctx.fillStyle='rgba('+bl.c+',0.45)';
+        ctx.beginPath(); ctx.ellipse(0,0,bl.rx*W,bl.ry*H,0,0,7); ctx.fill();
+        ctx.restore();
+      }
+      // rasterization scan line sweeping
+      var scanX = planeX + ((t*0.11)%1)*(xEnd-planeX);
+      ctx.strokeStyle='#46d18b'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.moveTo(scanX,planeTop); ctx.lineTo(scanX,planeBot); ctx.stroke();
+      pill('Rasterization Scan', scanX+4, H*0.16);
+    }
+
+    drawCamera(camX,camY);
+    legend(W,H,accent);
+  }
+
+  function drawCamera(x,y){
+    ctx.fillStyle='#f4f7fc'; ctx.strokeStyle='#f4f7fc'; ctx.lineWidth=2;
+    ctx.beginPath();
+    ctx.moveTo(x-16,y-10); ctx.lineTo(x+8,y-10); ctx.lineTo(x+8,y+10); ctx.lineTo(x-16,y+10); ctx.closePath();
+    ctx.fill();
+    ctx.beginPath(); ctx.moveTo(x+8,y-6); ctx.lineTo(x+20,y-12); ctx.lineTo(x+20,y+12); ctx.lineTo(x+8,y+6); ctx.closePath();
+    ctx.fill();
+    label('Camera', x, y+26, '#c7d2e6','center');
+  }
+
+  function label(txt,x,y,color,align){
+    ctx.fillStyle=color; ctx.font='12px Pretendard,sans-serif'; ctx.textAlign=align||'left';
+    ctx.fillText(txt,x,y); ctx.textAlign='left';
+  }
+  function pill(txt,x,y){
+    ctx.font='12px Pretendard,sans-serif';
+    var w=ctx.measureText(txt).width+18;
+    ctx.fillStyle='rgba(30,40,60,0.92)'; roundRect(x,y-13,w,22,7); ctx.fill();
+    ctx.fillStyle='#dbe6f7'; ctx.textAlign='left'; ctx.fillText(txt,x+9,y+2);
+  }
+  function legend(W,H,accent){
+    var y=H-16, x=8;
+    var dotTxt = mode==='nerf' ? 'Sampling Point' : 'Gaussian Ellipsoid';
+    ctx.fillStyle = mode==='nerf' ? '#5b8def' : '#46d18b';
+    ctx.beginPath(); ctx.arc(x+6,y-4,5,0,7); ctx.fill();
+    label(dotTxt,x+16,y,'#9fb0cc','left');
+    var x2=x+16+ctx.measureText(dotTxt).width+20;
+    ctx.fillStyle=accent; ctx.beginPath(); ctx.arc(x2+6,y-4,5,0,7); ctx.fill();
+    label('Image Plane',x2+16,y,'#9fb0cc','left');
+  }
+  function roundRect(x,y,w,h,r){
+    ctx.beginPath();
+    ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+    ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+  }
+
+  function applyMode(){
+    var d = DATA[mode];
+    modeName.textContent = d.name;
+    fpsFill.style.width = d.fps + '%';
+    gpuFill.style.width = d.gpu + '%';
+    root.querySelector('[data-info=structure]').textContent = d.structure;
+    root.querySelector('[data-info=render]').textContent = d.render;
+    root.querySelector('[data-info=sim2real]').textContent = d.sim2real;
+  }
+  function step(mode2){
+    var idx = order.indexOf(mode);
+    idx = (idx + (mode2==='next'?1:order.length-1)) % order.length;
+    mode = order[idx]; applyMode();
+  }
+
+  root.addEventListener('click', function(e){
+    var act = e.target.getAttribute('data-act');
+    if(act==='toggle'){ playing=!playing; toggleBtn.textContent = playing?'❚❚':'▶'; if(playing) loop(); }
+    else if(act==='reset'){ t=0; mode='nerf'; applyMode(); draw(); }
+    else if(act==='next'){ step('next'); }
+    else if(act==='prev'){ step('prev'); }
+  });
+
+  var raf=null;
+  function loop(){
+    if(!playing){ raf=null; return; }
+    t += 1; draw(); raf=requestAnimationFrame(loop);
+  }
+  window.addEventListener('resize', function(){ resize(); draw(); });
+
+  resize(); applyMode(); draw(); loop();
+})();
+</script>

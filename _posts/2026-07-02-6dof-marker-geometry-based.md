@@ -27,11 +27,11 @@ $$
 s \begin{bmatrix} u \\ v \\ 1 \end{bmatrix} = K \,[R \mid t] \begin{bmatrix} X \\ Y \\ Z \\ 1 \end{bmatrix}
 $$
 
-- $K$: 카메라 내부 파라미터(intrinsics, 캘리브레이션으로 획득)
-- $(X,Y,Z)$: 물체 좌표계의 3D 점 / $(u,v)$: 이미지 픽셀
-- 미지수: $R, t$ (즉 6DoF 포즈)
+- $$K$$: 카메라 내부 파라미터(intrinsics, 캘리브레이션으로 획득)
+- $$(X,Y,Z)$$: 물체 좌표계의 3D 점 / $$(u,v)$$: 이미지 픽셀
+- 미지수: $$R, t$$ (즉 6DoF 포즈)
 
-3D–2D 대응이 최소 3~4쌍 이상 있으면 $R, t$ 를 풀 수 있다. 대표 알고리즘으로 **EPnP**, 반복적 최적화(Levenberg–Marquardt) 등이 있고, 잘못된 대응(outlier)에 대비해 **RANSAC** 으로 감싸는 것이 일반적이다.
+3D–2D 대응이 최소 3~4쌍 이상 있으면 $$R, t$$ 를 풀 수 있다. 대표 알고리즘으로 **EPnP**, 반복적 최적화(Levenberg–Marquardt) 등이 있고, 잘못된 대응(outlier)에 대비해 **RANSAC** 으로 감싸는 것이 일반적이다.
 
 ![마커 검출 → 코너 2D-3D 대응 → PnP → 6DoF 포즈 파이프라인](/assets/images/6dof-marker-pnp.svg)
 

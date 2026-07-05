@@ -19,20 +19,20 @@ toc_sticky: true
 
 ## 1. 문제 정의: Registration = 6DoF
 
-깊이 센서로 얻은 관측 점군 $\mathcal{P} = \{p_i\}$ 을, 물체 모델 점군 $\mathcal{Q} = \{q_i\}$ 에 정렬하는 **강체 변환** $(R, t)$ 를 찾는 문제다.
+깊이 센서로 얻은 관측 점군 $$\mathcal{P} = \{p_i\}$$ 을, 물체 모델 점군 $$\mathcal{Q} = \{q_i\}$$ 에 정렬하는 **강체 변환** $$(R, t)$$ 를 찾는 문제다.
 
 $$
 \min_{R \in SO(3),\, t \in \mathbb{R}^3} \sum_{i} \big\| R\,p_i + t - q_i \big\|^2
 $$
 
-대응 $p_i \leftrightarrow q_i$ 가 정확히 주어지면, 이 문제는 **닫힌 해**(SVD 기반 Procrustes/Kabsch)로 바로 풀린다. 현실의 어려움은 (1) 대응을 모른다, (2) 대응에 아웃라이어가 많다는 점이다.
+대응 $$p_i \leftrightarrow q_i$$ 가 정확히 주어지면, 이 문제는 **닫힌 해**(SVD 기반 Procrustes/Kabsch)로 바로 풀린다. 현실의 어려움은 (1) 대응을 모른다, (2) 대응에 아웃라이어가 많다는 점이다.
 
 ## 2. 지역 정합 — ICP
 
 **ICP(Iterative Closest Point)** (Besl & McKay, 1992)는 가장 고전적인 방법이다.
 
 1. 현재 변환으로 가장 가까운 점을 대응으로 가정
-2. 그 대응으로 최적 $(R,t)$ 갱신
+2. 그 대응으로 최적 $$(R,t)$$ 갱신
 3. 수렴까지 반복
 
 - 변형: **point-to-plane**(표면 법선 활용, 수렴 빠름), **Generalized-ICP(GICP)**
