@@ -33,7 +33,12 @@ html {
 
 // 페이지 타이틀 위 여백 (상단 메뉴바와 너무 붙지 않도록)
 .page__title {
-  margin-top: 6em;
+  margin-top: 3em;
+}
+
+// 타이틀과 본문 첫 요소 사이 간격 (예: About ↔ Hi)
+.page__content {
+  margin-top: 2em;
 }
 
 body {
