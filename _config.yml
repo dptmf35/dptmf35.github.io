@@ -14,7 +14,7 @@ words_per_minute         : 200
 
 # 테마 (Gemfile의 minimal-mistakes-jekyll gem 사용 — 로컬/Actions 빌드 공통)
 theme                    : minimal-mistakes-jekyll
-minimal_mistakes_skin    : "aqua" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "mint" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # ------------------------------------------------------------------------------
 # Search
