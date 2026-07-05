@@ -76,4 +76,10 @@ code, pre, kbd, samp {
       font-weight: 700;
     }
   }
+
+  // MM 기본 active 규칙의 좌측 당김/패딩 제거 (텍스트 밀림·짤림 버그 방지)
+  .nav__list .nav__items .active {
+    margin-inline-start: 0;
+    padding-inline: 0;
+  }
 }
