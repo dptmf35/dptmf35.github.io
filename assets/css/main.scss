@@ -31,6 +31,11 @@ html {
   font-size: 16px; // 기본 폰트 크기
 }
 
+// 페이지 타이틀 위 여백 (상단 메뉴바와 너무 붙지 않도록)
+.page__title {
+  margin-top: 1.5em;
+}
+
 body {
   font-family: $sans-serif;
   -webkit-font-smoothing: antialiased;
