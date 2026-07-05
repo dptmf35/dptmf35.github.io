@@ -1,11 +1,9 @@
-# 상단 네비게이션 바 (유틸리티만 슬림하게)
+# 상단 네비게이션 바 (검색은 우측 돋보기 아이콘으로 통합)
 main:
   - title: "Tags"
     url: /tags/
   - title: "About"
     url: /about/
-  - title: "Search"
-    url: /search/
 
 # 왼쪽 사이드바 메뉴 (프로필 아래에 표시)
 # count_category: 게시글 수 계산 및 자식 필터링에 쓰이는 상위 카테고리
