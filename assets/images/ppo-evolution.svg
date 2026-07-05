@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 300" font-family="Pretendard, 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="ppoarrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#8a9199"/>
+    </marker>
+  </defs>
+
+  <text x="450" y="40" text-anchor="middle" font-size="22" font-weight="700" fill="#333">정책 최적화의 흐름: PG → TRPO → PPO</text>
+
+  <!-- PG -->
+  <rect x="30" y="78" width="255" height="170" rx="14" fill="none" stroke="#c9ccd1" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <rect x="55" y="66" width="205" height="42" rx="12" fill="#eef2f4" stroke="#c9ccd1" stroke-width="1.5"/>
+  <text x="157" y="93" text-anchor="middle" font-size="17" font-weight="700" fill="#333">Vanilla PG (A2C/A3C)</text>
+  <text x="157" y="140" text-anchor="middle" font-size="14" fill="#333">단순한 1차 최적화</text>
+  <text x="157" y="172" text-anchor="middle" font-size="13" fill="#c0562e">데이터당 1회 업데이트</text>
+  <text x="157" y="196" text-anchor="middle" font-size="13" fill="#c0562e">재사용 시 정책 붕괴</text>
+  <text x="157" y="228" text-anchor="middle" font-size="12" fill="#6b7178">→ 샘플 비효율</text>
+
+  <!-- TRPO -->
+  <rect x="322" y="78" width="255" height="170" rx="14" fill="none" stroke="#c9ccd1" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <rect x="347" y="66" width="205" height="42" rx="12" fill="#e9f1fb" stroke="#b9d0ec" stroke-width="1.5"/>
+  <text x="449" y="93" text-anchor="middle" font-size="17" font-weight="700" fill="#2c5aa0">TRPO</text>
+  <text x="449" y="140" text-anchor="middle" font-size="14" fill="#333">KL 제약으로 안정성 확보</text>
+  <text x="449" y="164" text-anchor="middle" font-size="13" fill="#2e7d46">monotonic improvement 보장</text>
+  <text x="449" y="196" text-anchor="middle" font-size="13" fill="#c0562e">2차 최적화 · 구현 복잡</text>
+  <text x="449" y="228" text-anchor="middle" font-size="12" fill="#6b7178">→ dropout·공유 아키텍처 비호환</text>
+
+  <!-- PPO -->
+  <rect x="614" y="78" width="256" height="170" rx="14" fill="none" stroke="#c9ccd1" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <rect x="639" y="66" width="206" height="42" rx="12" fill="#fbeed6" stroke="#e6cfa0" stroke-width="1.5"/>
+  <text x="742" y="93" text-anchor="middle" font-size="17" font-weight="700" fill="#b5761a">PPO</text>
+  <text x="742" y="140" text-anchor="middle" font-size="14" fill="#333">clipping으로 안정성 확보</text>
+  <text x="742" y="164" text-anchor="middle" font-size="13" fill="#2e7d46">1차 최적화(Adam)만으로</text>
+  <text x="742" y="196" text-anchor="middle" font-size="13" fill="#2e7d46">다중 에폭 재사용 안전</text>
+  <text x="742" y="228" text-anchor="middle" font-size="12" fill="#6b7178">→ 단순 · 범용 · 사실상 표준</text>
+
+  <!-- arrows -->
+  <line x1="285" y1="163" x2="320" y2="163" stroke="#8a9199" stroke-width="2" marker-end="url(#ppoarrow)"/>
+  <line x1="577" y1="163" x2="612" y2="163" stroke="#8a9199" stroke-width="2" marker-end="url(#ppoarrow)"/>
+  <text x="302" y="152" text-anchor="middle" font-size="11" fill="#6b7178">안정성</text>
+  <text x="594" y="152" text-anchor="middle" font-size="11" fill="#6b7178">단순화</text>
+</svg>
