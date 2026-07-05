@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 470" font-family="Pretendard, 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="arrow3" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#8a9199"/>
+    </marker>
+  </defs>
+
+  <text x="410" y="40" text-anchor="middle" font-size="22" font-weight="700" fill="#333">포인트 정합: ICP vs TEASER++</text>
+
+  <!-- ICP header -->
+  <rect x="60" y="72" width="320" height="60" rx="16" fill="#e9f1fb" stroke="#b9d0ec" stroke-width="1.5"/>
+  <text x="220" y="98" text-anchor="middle" font-size="20" font-weight="700" fill="#2c5aa0">ICP (지역 정합)</text>
+  <text x="220" y="120" text-anchor="middle" font-size="13" fill="#5a7fb0">좋은 초기값 필요 · 아웃라이어에 약함</text>
+
+  <!-- TEASER header -->
+  <rect x="440" y="72" width="320" height="60" rx="16" fill="#fbeed6" stroke="#e6cfa0" stroke-width="1.5"/>
+  <text x="600" y="98" text-anchor="middle" font-size="20" font-weight="700" fill="#b5761a">TEASER++ (전역 · 강인)</text>
+  <text x="600" y="120" text-anchor="middle" font-size="13" fill="#c0904a">초기값 불필요 · 아웃라이어 99%+ 견딤</text>
+
+  <!-- ICP box -->
+  <rect x="60" y="152" width="320" height="270" rx="12" fill="none" stroke="#c9ccd1" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="220" y="182" text-anchor="middle" font-size="14" fill="#333">가까운 점을 대응으로 가정 &#8594; 반복</text>
+  <!-- two misaligned blobs -->
+  <g>
+    <circle cx="150" cy="235" r="6" fill="#5a7fb0"/><circle cx="170" cy="228" r="6" fill="#5a7fb0"/><circle cx="190" cy="238" r="6" fill="#5a7fb0"/><circle cx="165" cy="252" r="6" fill="#5a7fb0"/>
+    <circle cx="235" cy="248" r="6" fill="#9aa0a6" opacity="0.7"/><circle cx="255" cy="241" r="6" fill="#9aa0a6" opacity="0.7"/><circle cx="275" cy="251" r="6" fill="#9aa0a6" opacity="0.7"/><circle cx="250" cy="265" r="6" fill="#9aa0a6" opacity="0.7"/>
+  </g>
+  <text x="220" y="312" text-anchor="middle" font-size="13" fill="#6b7178">초기 정렬이 나쁘면</text>
+  <text x="220" y="332" text-anchor="middle" font-size="13" fill="#6b7178">지역 최소값에 빠짐</text>
+  <rect x="120" y="356" width="200" height="44" rx="10" fill="#eef2f4" stroke="#c9ccd1"/>
+  <text x="220" y="383" text-anchor="middle" font-size="14" fill="#333">→ 주로 정밀화(refine)에 사용</text>
+
+  <!-- TEASER box -->
+  <rect x="440" y="152" width="320" height="270" rx="12" fill="none" stroke="#c9ccd1" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="600" y="182" text-anchor="middle" font-size="14" fill="#333">대량 대응 중 참(inlier)만 선별</text>
+  <!-- inliers/outliers -->
+  <g>
+    <circle cx="520" cy="232" r="6" fill="#2e7d46"/><circle cx="545" cy="240" r="6" fill="#2e7d46"/><circle cx="568" cy="230" r="6" fill="#2e7d46"/><circle cx="590" cy="242" r="6" fill="#2e7d46"/>
+    <circle cx="640" cy="225" r="5" fill="#fc3a52" opacity="0.6"/><circle cx="675" cy="255" r="5" fill="#fc3a52" opacity="0.6"/><circle cx="620" cy="262" r="5" fill="#fc3a52" opacity="0.6"/><circle cx="700" cy="235" r="5" fill="#fc3a52" opacity="0.6"/>
+  </g>
+  <text x="600" y="298" text-anchor="middle" font-size="12" fill="#2e7d46">● inlier (최대 클리크)</text>
+  <text x="600" y="318" text-anchor="middle" font-size="12" fill="#c0562e">● outlier (TLS로 제거)</text>
+  <rect x="500" y="356" width="200" height="44" rx="10" fill="#eef2f4" stroke="#c9ccd1"/>
+  <text x="600" y="383" text-anchor="middle" font-size="14" fill="#333">→ 강인한 전역 정합</text>
+
+  <text x="410" y="452" text-anchor="middle" font-size="13" fill="#6b7178">실무: TEASER++ (전역) → ICP (정밀화) 순서로 결합</text>
+</svg>

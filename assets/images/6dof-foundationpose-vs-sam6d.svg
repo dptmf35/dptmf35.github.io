@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 820 480" font-family="Pretendard, 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="arrow4" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#8a9199"/>
+    </marker>
+  </defs>
+
+  <text x="410" y="40" text-anchor="middle" font-size="22" font-weight="700" fill="#333">Model-based Zero-shot: FoundationPose vs SAM-6D</text>
+
+  <!-- FoundationPose header -->
+  <rect x="55" y="72" width="330" height="62" rx="16" fill="#e9f1fb" stroke="#b9d0ec" stroke-width="1.5"/>
+  <text x="220" y="98" text-anchor="middle" font-size="19" font-weight="700" fill="#2c5aa0">FoundationPose</text>
+  <text x="220" y="120" text-anchor="middle" font-size="13" fill="#5a7fb0">render-and-compare · 추정+추적 통합</text>
+
+  <!-- SAM-6D header -->
+  <rect x="435" y="72" width="330" height="62" rx="16" fill="#fbeed6" stroke="#e6cfa0" stroke-width="1.5"/>
+  <text x="600" y="98" text-anchor="middle" font-size="19" font-weight="700" fill="#b5761a">SAM-6D</text>
+  <text x="600" y="120" text-anchor="middle" font-size="13" fill="#c0904a">SAM 세그멘테이션 · 점 매칭</text>
+
+  <!-- FoundationPose stages -->
+  <rect x="90" y="158" width="260" height="52" rx="10" fill="none" stroke="#c9ccd1" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="220" y="182" text-anchor="middle" font-size="14" fill="#333">CAD 또는 참조영상</text>
+  <text x="220" y="200" text-anchor="middle" font-size="12" fill="#6b7178">(model-free는 neural object field)</text>
+
+  <rect x="90" y="230" width="260" height="52" rx="10" fill="none" stroke="#c9ccd1" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="220" y="254" text-anchor="middle" font-size="14" fill="#333">포즈 가설 &#8594; 렌더 비교 정밀화</text>
+  <text x="220" y="272" text-anchor="middle" font-size="12" fill="#6b7178">render &#8596; 관측 차이 최소화</text>
+
+  <rect x="90" y="302" width="260" height="52" rx="10" fill="none" stroke="#c9ccd1" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="220" y="326" text-anchor="middle" font-size="14" fill="#333">계층적 가설 선택</text>
+  <text x="220" y="344" text-anchor="middle" font-size="12" fill="#6b7178">최종 포즈 &amp; 추적</text>
+
+  <!-- SAM-6D stages -->
+  <rect x="470" y="158" width="260" height="52" rx="10" fill="none" stroke="#c9ccd1" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="600" y="182" text-anchor="middle" font-size="14" fill="#333">① ISM: SAM으로 전체 마스크</text>
+  <text x="600" y="200" text-anchor="middle" font-size="12" fill="#6b7178">템플릿과 매칭해 대상 인스턴스 선택</text>
+
+  <rect x="470" y="230" width="260" height="52" rx="10" fill="none" stroke="#c9ccd1" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="600" y="254" text-anchor="middle" font-size="14" fill="#333">② PEM: 부분-대-부분 점 매칭</text>
+  <text x="600" y="272" text-anchor="middle" font-size="12" fill="#6b7178">coarse &#8594; fine, background token</text>
+
+  <rect x="470" y="302" width="260" height="52" rx="10" fill="none" stroke="#c9ccd1" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="600" y="326" text-anchor="middle" font-size="14" fill="#333">대응 &#8594; 6DoF 포즈</text>
+  <text x="600" y="344" text-anchor="middle" font-size="12" fill="#6b7178">novel object zero-shot</text>
+
+  <!-- arrows -->
+  <line x1="220" y1="210" x2="220" y2="228" stroke="#8a9199" stroke-width="1.6" marker-end="url(#arrow4)"/>
+  <line x1="220" y1="282" x2="220" y2="300" stroke="#8a9199" stroke-width="1.6" marker-end="url(#arrow4)"/>
+  <line x1="600" y1="210" x2="600" y2="228" stroke="#8a9199" stroke-width="1.6" marker-end="url(#arrow4)"/>
+  <line x1="600" y1="282" x2="600" y2="300" stroke="#8a9199" stroke-width="1.6" marker-end="url(#arrow4)"/>
+
+  <!-- common footer -->
+  <rect x="180" y="392" width="460" height="56" rx="12" fill="#eef2f4" stroke="#c9ccd1" stroke-width="1.5"/>
+  <text x="410" y="416" text-anchor="middle" font-size="14" font-weight="700" fill="#333">공통: RGB-D 입력 · 세그멘테이션 필요 · 재학습 없이 새 물체</text>
+  <text x="410" y="436" text-anchor="middle" font-size="12" fill="#6b7178">임의의 novel object를 zero-shot으로 처리</text>
+</svg>
