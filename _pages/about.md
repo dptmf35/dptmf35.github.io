@@ -5,7 +5,7 @@ author_profile: true
 toc: false
 ---
 
-## 안녕하세요 👋
+## Hi, AI Robotics Engineer Yeseul Jeong 🤗
 
 **AI(머신러닝/딥러닝), 로보틱스, 데이터 엔지니어링** 에 깊은 관심을 두고 공부하고 있습니다.
 
