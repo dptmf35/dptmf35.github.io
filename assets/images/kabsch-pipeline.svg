@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 250" font-family="Pretendard, 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="kb-arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#8a9199"/>
+    </marker>
+  </defs>
+
+  <!-- Box 1: 입력 (blue) -->
+  <g>
+    <rect x="8" y="70" width="168" height="110" rx="12" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+    <rect x="28" y="52" width="128" height="34" rx="17" fill="#e9f1fb" stroke="#b9d0ec"/>
+    <text x="92" y="74" text-anchor="middle" font-size="17" fill="#2c5aa0" font-weight="600">입력</text>
+    <text x="92" y="112" text-anchor="middle" font-size="15" fill="#333">측정점 {pᵢ}</text>
+    <text x="92" y="136" text-anchor="middle" font-size="15" fill="#333">기준점 {qᵢ}</text>
+    <text x="92" y="162" text-anchor="middle" font-size="13" fill="#6b7178">쌍 N ≥ 3</text>
+  </g>
+  <line x1="176" y1="125" x2="206" y2="125" stroke="#8a9199" stroke-width="2" marker-end="url(#kb-arrow)"/>
+
+  <!-- Box 2: 중심 정렬 (orange) -->
+  <g>
+    <rect x="208" y="70" width="168" height="110" rx="12" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+    <rect x="228" y="52" width="128" height="34" rx="17" fill="#fbeed6" stroke="#e6cfa0"/>
+    <text x="292" y="74" text-anchor="middle" font-size="17" fill="#b5761a" font-weight="600">① 중심 정렬</text>
+    <text x="292" y="114" text-anchor="middle" font-size="15" fill="#333">xᵢ = pᵢ − p̄</text>
+    <text x="292" y="140" text-anchor="middle" font-size="15" fill="#333">yᵢ = qᵢ − q̄</text>
+    <text x="292" y="164" text-anchor="middle" font-size="13" fill="#6b7178">translation 분리</text>
+  </g>
+  <line x1="376" y1="125" x2="406" y2="125" stroke="#8a9199" stroke-width="2" marker-end="url(#kb-arrow)"/>
+
+  <!-- Box 3: 교차공분산 (green) -->
+  <g>
+    <rect x="408" y="70" width="168" height="110" rx="12" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+    <rect x="428" y="52" width="128" height="34" rx="17" fill="#e6f4ea" stroke="#b7dcc0"/>
+    <text x="492" y="74" text-anchor="middle" font-size="17" fill="#2e7d46" font-weight="600">② 교차공분산</text>
+    <text x="492" y="118" text-anchor="middle" font-size="16" fill="#333">H = Σ xᵢ yᵢᵀ</text>
+    <text x="492" y="150" text-anchor="middle" font-size="13" fill="#6b7178">3 × 3 행렬</text>
+  </g>
+  <line x1="576" y1="125" x2="606" y2="125" stroke="#8a9199" stroke-width="2" marker-end="url(#kb-arrow)"/>
+
+  <!-- Box 4: SVD (blue) -->
+  <g>
+    <rect x="608" y="70" width="168" height="110" rx="12" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+    <rect x="628" y="52" width="128" height="34" rx="17" fill="#e9f1fb" stroke="#b9d0ec"/>
+    <text x="692" y="74" text-anchor="middle" font-size="17" fill="#2c5aa0" font-weight="600">③ SVD</text>
+    <text x="692" y="118" text-anchor="middle" font-size="16" fill="#333">H = U Σ Vᵀ</text>
+    <text x="692" y="150" text-anchor="middle" font-size="13" fill="#6b7178">특이값 분해</text>
+  </g>
+  <line x1="776" y1="125" x2="806" y2="125" stroke="#8a9199" stroke-width="2" marker-end="url(#kb-arrow)"/>
+
+  <!-- Box 5: 해 (green) -->
+  <g>
+    <rect x="808" y="70" width="184" height="110" rx="12" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+    <rect x="838" y="52" width="128" height="34" rx="17" fill="#e6f4ea" stroke="#b7dcc0"/>
+    <text x="900" y="74" text-anchor="middle" font-size="17" fill="#2e7d46" font-weight="600">④ 해 (R, t)</text>
+    <text x="900" y="114" text-anchor="middle" font-size="15" fill="#333">R = V·D·Uᵀ</text>
+    <text x="900" y="140" text-anchor="middle" font-size="15" fill="#333">t = q̄ − R p̄</text>
+    <text x="900" y="164" text-anchor="middle" font-size="12" fill="#6b7178">D = diag(1,1,det VUᵀ)</text>
+  </g>
+
+  <text x="500" y="222" text-anchor="middle" font-size="13" fill="#6b7178">두 point set을 잇는 최소제곱 rigid transform (R ∈ SO(3), t)을 닫힌형으로 구한다</text>
+</svg>

@@ -1,0 +1,129 @@
+<style>
+.kb-card{border:1px solid #e2e5ea;border-radius:14px;padding:18px 18px 14px;margin:22px 0;background:#fbfcfd;font-family:Pretendard,'Malgun Gothic',sans-serif;color:#333}
+.kb-title{font-size:15px;font-weight:600;color:#2c5aa0;margin:0 0 4px}
+.kb-sub{font-size:13px;color:#6b7178;margin:0 0 12px}
+.kb-canvas-wrap{position:relative;width:100%;background:#fff;border:1px solid #eceef1;border-radius:10px;overflow:hidden}
+.kb-canvas-wrap canvas{display:block;width:100%;height:auto}
+.kb-controls{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.kb-btn{border:1px solid #b9d0ec;background:#e9f1fb;color:#2c5aa0;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.kb-btn:hover{background:#dceaf6}
+.kb-btn.sec{border-color:#d5d8dd;background:#f1f2f4;color:#555}
+.kb-btn.sec:hover{background:#e8e9ec}
+.kb-stat{display:flex;gap:18px;flex-wrap:wrap;margin-left:auto;font-size:13px}
+.kb-stat b{font-family:'SFMono-Regular',Consolas,monospace;color:#2e7d46;font-weight:700}
+.kb-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:#6b7178}
+.kb-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:middle}
+</style>
+
+<div class="kb-card">
+  <p class="kb-title">Kabsch 정렬 — 측정점을 기준점에 맞추기</p>
+  <p class="kb-sub">파란 <b>측정점</b>이 어긋나 있다. 재생하면 Kabsch가 구한 rigid transform (R, t)을 적용해 초록 <b>기준점</b>에 정렬한다. 잔차(RMSD)가 노이즈 바닥까지 줄어드는 걸 확인한다.</p>
+  <div class="kb-canvas-wrap"><canvas id="kb-cv"></canvas></div>
+  <div class="kb-controls">
+    <button class="kb-btn" id="kb-play">▶ 재생</button>
+    <button class="kb-btn sec" id="kb-reset">↺ 리셋</button>
+    <button class="kb-btn sec" id="kb-new">새 데이터</button>
+    <div class="kb-stat">
+      <span>진행 f = <b id="kb-f">0.00</b></span>
+      <span>RMSD = <b id="kb-rmsd">–</b></span>
+    </div>
+  </div>
+  <div class="kb-legend">
+    <span><i class="kb-dot" style="background:#2c5aa0"></i>측정점 (정렬 대상)</span>
+    <span><i class="kb-dot" style="background:#2e7d46"></i>기준점 (목표)</span>
+    <span><i class="kb-dot" style="background:#c9ccd1"></i>대응 잔차</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  var cv=document.getElementById('kb-cv'),ctx=cv.getContext('2d');
+  var elF=document.getElementById('kb-f'),elR=document.getElementById('kb-rmsd');
+  var W=640,H=340,DPR=Math.max(1,window.devicePixelRatio||1);
+  function resize(){var w=cv.parentNode.clientWidth||W;var scale=w/W;cv.style.height=(H*scale)+'px';cv.width=Math.round(W*scale*DPR);cv.height=Math.round(H*scale*DPR);ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0);}
+  window.addEventListener('resize',resize);
+
+  var targets=[],srcBase=[],pbar,qbar,theta=0,f=0,playing=false;
+
+  function centroid(a){var sx=0,sy=0;for(var i=0;i<a.length;i++){sx+=a[i].x;sy+=a[i].y;}return {x:sx/a.length,y:sy/a.length};}
+
+  function gen(){
+    // 목표 point set: 비대칭 모양(회전이 눈에 보이게)
+    var base=[[-70,-40],[-30,-60],[10,-50],[50,-30],[70,10],[40,45],[-10,55],[-55,30],[-20,0]];
+    var cx=330,cy=170;
+    targets=base.map(function(p){return {x:cx+p[0],y:cy+p[1]};});
+    qbar=centroid(targets);
+    // 측정점 = 목표를 회전+평행이동+노이즈
+    var a0=(50+Math.random()*70)*Math.PI/180;   // 초기 어긋난 각
+    var ca=Math.cos(a0),sa=Math.sin(a0);
+    var tx=-140+Math.random()*40, ty=-30+Math.random()*60;
+    srcBase=targets.map(function(q){
+      var vx=q.x-qbar.x, vy=q.y-qbar.y;
+      var rx=ca*vx-sa*vy, ry=sa*vx+ca*vy;
+      var nx=(Math.random()-0.5)*14, ny=(Math.random()-0.5)*14; // 측정 노이즈
+      return {x:qbar.x+rx+tx+nx, y:qbar.y+ry+ty+ny};
+    });
+    pbar=centroid(srcBase);
+    // 2D Kabsch: 닫힌형 회전각 (atan2 of cross, dot)
+    var A=0,B=0;
+    for(var i=0;i<srcBase.length;i++){
+      var vx=srcBase[i].x-pbar.x, vy=srcBase[i].y-pbar.y;
+      var wx=targets[i].x-qbar.x, wy=targets[i].y-qbar.y;
+      A+=vx*wx+vy*wy;  // dot
+      B+=vx*wy-vy*wx;  // cross
+    }
+    theta=Math.atan2(B,A);
+    f=0;
+  }
+
+  function posAt(i,ff){
+    var c=Math.cos(ff*theta),s=Math.sin(ff*theta);
+    var vx=srcBase[i].x-pbar.x, vy=srcBase[i].y-pbar.y;
+    var rx=c*vx-s*vy, ry=s*vx+c*vy;
+    return {x:pbar.x+rx+ff*(qbar.x-pbar.x), y:pbar.y+ry+ff*(qbar.y-pbar.y)};
+  }
+  function rmsd(ff){var s=0;for(var i=0;i<srcBase.length;i++){var p=posAt(i,ff);var dx=p.x-targets[i].x,dy=p.y-targets[i].y;s+=dx*dx+dy*dy;}return Math.sqrt(s/srcBase.length);}
+
+  function disc(x,y,r,fill,stroke){ctx.beginPath();ctx.arc(x,y,r,0,6.2832);ctx.fillStyle=fill;ctx.fill();ctx.lineWidth=2;ctx.strokeStyle=stroke;ctx.stroke();}
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    var i,p;
+    // 잔차 선
+    ctx.strokeStyle='#c9ccd1';ctx.lineWidth=1.4;ctx.setLineDash([4,4]);
+    for(i=0;i<srcBase.length;i++){p=posAt(i,f);ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(targets[i].x,targets[i].y);ctx.stroke();}
+    ctx.setLineDash([]);
+    // 목표점
+    for(i=0;i<targets.length;i++)disc(targets[i].x,targets[i].y,6,'#e6f4ea','#2e7d46');
+    // 측정점 (현재 f)
+    for(i=0;i<srcBase.length;i++){p=posAt(i,f);disc(p.x,p.y,6,'#e9f1fb','#2c5aa0');}
+    // 무게중심 표시
+    var pc={x:pbar.x+f*(qbar.x-pbar.x),y:pbar.y+f*(qbar.y-pbar.y)};
+    ctx.strokeStyle='#2c5aa0';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(pc.x,pc.y,10,0,6.2832);ctx.stroke();
+    ctx.strokeStyle='#2e7d46';ctx.beginPath();ctx.arc(qbar.x,qbar.y,10,0,6.2832);ctx.stroke();
+    elF.textContent=f.toFixed(2);
+    elR.textContent=rmsd(f).toFixed(1)+' px';
+  }
+
+  var last=0;
+  function loop(t){
+    if(!playing)return;
+    if(!last)last=t;var dt=(t-last)/1000;last=t;
+    f+=dt*0.45;
+    if(f>=1){f=1;playing=false;setBtn();}
+    draw();
+    if(playing)requestAnimationFrame(loop);
+  }
+  var btn=document.getElementById('kb-play');
+  function setBtn(){btn.textContent=playing?'❚❚ 일시정지':(f>=1?'↺ 다시':'▶ 재생');}
+  btn.onclick=function(){
+    if(f>=1&&!playing){f=0;draw();}
+    playing=!playing;last=0;setBtn();
+    if(playing)requestAnimationFrame(loop);
+  };
+  document.getElementById('kb-reset').onclick=function(){playing=false;f=0;setBtn();draw();};
+  document.getElementById('kb-new').onclick=function(){playing=false;gen();setBtn();draw();};
+
+  resize();gen();draw();setBtn();
+})();
+</script>
