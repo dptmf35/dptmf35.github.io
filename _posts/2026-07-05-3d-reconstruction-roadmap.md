@@ -28,7 +28,7 @@ toc_sticky: true
 
 이 시리즈가 따라갈 전체 구조다. 크게 **① 기초 기하학**과 **② 3D 데이터 표현**의 두 축으로 나뉜다.
 
-![기초 기하학에서 대응·카메라를 풀고, point cloud·voxel·mesh로 표현한 뒤 신경망 표현으로 확장하는 3D Reconstruction 학습 트리](/assets/images/3drecon-roadmap.svg)
+![기초 기하학에서 대응·카메라를 풀고 SfM·MVS로 복원한 뒤, point cloud·voxel·mesh로 표현하고 신경망 표현으로 확장하는 3D Reconstruction 학습 트리](/assets/images/3drecon-roadmap.svg)
 
 ## 3. 두 축의 역할
 
@@ -38,8 +38,9 @@ toc_sticky: true
 
 - **camera calibration**: 내부(초점거리·주점)·외부(위치·자세) 파라미터를 추정한다
 - **다중 시점 기하학**: 두 시점 사이의 **epipolar geometry**로 대응을 제약하고, **특징점 매칭**으로 같은 3D 점을 찾는다
+- **SfM·MVS**: two-view 블록을 수백 장으로 확장해 **모든 카메라 자세 + sparse 구조**를 풀고(SfM·bundle adjustment), 픽셀 단위 깊이로 **dense 복원**까지 만든다(MVS) — COLMAP으로 대표되는 전통 파이프라인의 본체
 
-여기서 얻는 것은 **카메라 자세**와 **3D 점의 대응**이다.
+여기서 얻는 것은 **카메라 자세**와 **sparse~dense 3D 구조**다.
 
 ### ② 3D 데이터 표현 및 처리
 

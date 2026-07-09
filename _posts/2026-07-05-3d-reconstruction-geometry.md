@@ -383,5 +383,5 @@ $$
 | triangulation | 3D 점 | DLT, 재투영 오차 최소화 |
 
 - 기하학은 **픽셀을 3D ray로 바꾸고, 시점 간 대응을 제약하고, 대응에서 3D 점을 복원**하는 도구다.
-- 여기서 복원한 3D 점들이 다음 글의 **point cloud**가 된다.
-- 다음 글: [3D Reconstruction ② point cloud — 노이즈 제거와 downsampling]({% post_url 2026-07-05-3d-reconstruction-point-cloud %})
+- 다음 글은 이 two-view 파이프라인을 **수백 장의 순서 없는 사진**으로 확장한다 — 전통 3D reconstruction의 본체인 SfM·MVS다.
+- 다음 글: [3D Reconstruction ② SfM·MVS — 이미지 뭉치에서 dense 3D까지, 전통 파이프라인]({% post_url 2026-07-05-3d-reconstruction-sfm-mvs %})

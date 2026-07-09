@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 400" font-family="Pretendard, 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="sf-arrow" markerWidth="10" markerHeight="10" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L7,3 L0,6 Z" fill="#8a9199"/>
+    </marker>
+  </defs>
+
+  <!-- A: 이미지 집합 -->
+  <rect x="10" y="74" width="150" height="116" rx="12" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="85" y="124" text-anchor="middle" font-size="15" font-weight="600" fill="#333">이미지 집합</text>
+  <text x="85" y="148" text-anchor="middle" font-size="12" fill="#6b7178">순서 없는 다시점 사진</text>
+  <line x1="160" y1="132" x2="176" y2="132" stroke="#8a9199" stroke-width="2" marker-end="url(#sf-arrow)"/>
+
+  <!-- B: 대응 탐색 -->
+  <rect x="205" y="24" width="150" height="32" rx="16" fill="#e9f1fb" stroke="#b9d0ec"/>
+  <text x="280" y="45" text-anchor="middle" font-size="14" fill="#2c5aa0" font-weight="600">① 대응 탐색</text>
+  <rect x="180" y="74" width="200" height="116" rx="12" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="280" y="108" text-anchor="middle" font-size="13" fill="#333">특징점 + descriptor</text>
+  <text x="280" y="132" text-anchor="middle" font-size="13" fill="#333">매칭 + RANSAC 검증</text>
+  <text x="280" y="158" text-anchor="middle" font-size="12" fill="#6b7178">→ scene graph</text>
+  <line x1="380" y1="132" x2="396" y2="132" stroke="#8a9199" stroke-width="2" marker-end="url(#sf-arrow)"/>
+
+  <!-- C: 초기 쌍 복원 -->
+  <rect x="425" y="24" width="150" height="32" rx="16" fill="#fbeed6" stroke="#e6cfa0"/>
+  <text x="500" y="45" text-anchor="middle" font-size="14" fill="#b5761a" font-weight="600">② 초기 쌍 복원</text>
+  <rect x="400" y="74" width="200" height="116" rx="12" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="500" y="108" text-anchor="middle" font-size="13" fill="#333">좋은 두 시점 선택</text>
+  <text x="500" y="132" text-anchor="middle" font-size="13" fill="#333">E 분해 → (R, t)</text>
+  <text x="500" y="158" text-anchor="middle" font-size="12" fill="#6b7178">triangulation → 씨앗 지도</text>
+  <line x1="600" y1="132" x2="616" y2="132" stroke="#8a9199" stroke-width="2" marker-end="url(#sf-arrow)"/>
+
+  <!-- D: incremental loop -->
+  <rect x="655" y="24" width="300" height="32" rx="16" fill="#e9f1fb" stroke="#b9d0ec"/>
+  <text x="805" y="45" text-anchor="middle" font-size="14" fill="#2c5aa0" font-weight="600">③ 점진적 확장 (incremental loop)</text>
+  <rect x="620" y="74" width="370" height="116" rx="12" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <rect x="635" y="92" width="105" height="46" rx="8" fill="#fff" stroke="#c9ccd1"/>
+  <text x="687" y="112" text-anchor="middle" font-size="12.5" font-weight="600" fill="#333">PnP 등록</text>
+  <text x="687" y="129" text-anchor="middle" font-size="11" fill="#6b7178">2D-3D 대응</text>
+  <line x1="740" y1="115" x2="752" y2="115" stroke="#8a9199" stroke-width="1.6" marker-end="url(#sf-arrow)"/>
+  <rect x="755" y="92" width="105" height="46" rx="8" fill="#fff" stroke="#c9ccd1"/>
+  <text x="807" y="112" text-anchor="middle" font-size="12.5" font-weight="600" fill="#333">triangulation</text>
+  <text x="807" y="129" text-anchor="middle" font-size="11" fill="#6b7178">신규 3D 점</text>
+  <line x1="860" y1="115" x2="872" y2="115" stroke="#8a9199" stroke-width="1.6" marker-end="url(#sf-arrow)"/>
+  <rect x="875" y="92" width="105" height="46" rx="8" fill="#fff" stroke="#c9ccd1"/>
+  <text x="927" y="112" text-anchor="middle" font-size="12.5" font-weight="600" fill="#333">BA</text>
+  <text x="927" y="129" text-anchor="middle" font-size="11" fill="#6b7178">전체 정련</text>
+  <path d="M927,138 C927,172 687,172 687,142" fill="none" stroke="#8a9199" stroke-width="1.6" marker-end="url(#sf-arrow)"/>
+  <text x="807" y="182" text-anchor="middle" font-size="11.5" fill="#6b7178">모든 이미지가 등록될 때까지 반복</text>
+
+  <!-- elbow down to row 2 -->
+  <path d="M805,190 L805,220 L140,220 L140,242" fill="none" stroke="#8a9199" stroke-width="2" marker-end="url(#sf-arrow)"/>
+
+  <!-- E: sparse 출력 -->
+  <rect x="30" y="248" width="220" height="70" rx="12" fill="#e6f4ea" stroke="#b7dcc0"/>
+  <text x="140" y="278" text-anchor="middle" font-size="14" font-weight="700" fill="#2e7d46">sparse point cloud</text>
+  <text x="140" y="300" text-anchor="middle" font-size="12.5" fill="#2e7d46">+ 모든 카메라 자세 (SfM 출력)</text>
+  <line x1="250" y1="283" x2="272" y2="283" stroke="#8a9199" stroke-width="2" marker-end="url(#sf-arrow)"/>
+
+  <!-- F: MVS -->
+  <rect x="275" y="248" width="240" height="70" rx="12" fill="#fbeed6" stroke="#e6cfa0"/>
+  <text x="395" y="278" text-anchor="middle" font-size="14" font-weight="700" fill="#b5761a">④ MVS 조밀화</text>
+  <text x="395" y="300" text-anchor="middle" font-size="12.5" fill="#b5761a">시점별 depth map → fusion</text>
+  <line x1="515" y1="283" x2="537" y2="283" stroke="#8a9199" stroke-width="2" marker-end="url(#sf-arrow)"/>
+
+  <!-- G: dense 출력 -->
+  <rect x="540" y="248" width="220" height="70" rx="12" fill="#e6f4ea" stroke="#b7dcc0"/>
+  <text x="650" y="278" text-anchor="middle" font-size="14" font-weight="700" fill="#2e7d46">dense point cloud</text>
+  <text x="650" y="300" text-anchor="middle" font-size="12.5" fill="#2e7d46">→ mesh · 이후 표현 단계로</text>
+
+  <text x="500" y="368" text-anchor="middle" font-size="13" fill="#6b7178">COLMAP이 이 파이프라인의 표준 구현이다 — SfM이 자세와 sparse 구조를, MVS가 dense 복원을 만든다</text>
+</svg>

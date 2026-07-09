@@ -1,5 +1,5 @@
 ---
-title: "[공부] 3D Reconstruction ④ 신경망 기반 표현 — NeRF vs 3DGS"
+title: "[공부] 3D Reconstruction ⑤ 신경망 기반 표현 — NeRF vs 3DGS"
 excerpt: "장면을 신경망·Gaussian으로 연속 표현하는 최신 접근. volume rendering의 NeRF와 rasterization의 3DGS를 인터랙티브 위젯으로 비교한다."
 date: 2026-07-05 12:00:00 +0900
 categories:
@@ -22,7 +22,7 @@ toc_sticky: true
 
 - **연속 표현**: 공간의 임의 위치·방향에서 색·밀도를 **함수로 질의**한다
 - **novel view synthesis**: 학습에 없던 카메라 위치의 이미지를 사실적으로 렌더한다
-- 입력은 여전히 **여러 장의 이미지 + 카메라 자세**([calibration·SfM]({% post_url 2026-07-05-3d-reconstruction-geometry %}))다
+- 입력은 여전히 **여러 장의 이미지 + 카메라 자세**([calibration]({% post_url 2026-07-05-3d-reconstruction-geometry %})·[SfM]({% post_url 2026-07-05-3d-reconstruction-sfm-mvs %}))다
 
 대표 주자가 **NeRF**와 **3DGS**다. 둘의 차이는 아래 위젯에서 렌더링 과정을 직접 보며 이해하는 편이 빠르다.
 
@@ -83,5 +83,5 @@ $$
 
 - NeRF·3DGS는 장면을 **연속 표현**으로 담아 사실적 신규 시점을 합성한다.
 - **NeRF = 암시적·volume rendering(느리지만 사실적)**, **3DGS = 명시적·rasterization(빠르고 Sim2Real 친화적)**.
-- 이로써 [기초 기하학]({% post_url 2026-07-05-3d-reconstruction-geometry %}) → [point cloud]({% post_url 2026-07-05-3d-reconstruction-point-cloud %}) → [voxel·mesh]({% post_url 2026-07-05-3d-reconstruction-voxel-tsdf %}) → 신경망 표현까지 3D Reconstruction의 큰 지도를 한 바퀴 돌았다.
+- 이로써 [기초 기하학]({% post_url 2026-07-05-3d-reconstruction-geometry %}) → [SfM·MVS]({% post_url 2026-07-05-3d-reconstruction-sfm-mvs %}) → [point cloud]({% post_url 2026-07-05-3d-reconstruction-point-cloud %}) → [voxel·mesh]({% post_url 2026-07-05-3d-reconstruction-voxel-tsdf %}) → 신경망 표현까지 3D Reconstruction의 큰 지도를 한 바퀴 돌았다.
 - 처음으로: [3D Reconstruction 학습 로드맵]({% post_url 2026-07-05-3d-reconstruction-roadmap %})

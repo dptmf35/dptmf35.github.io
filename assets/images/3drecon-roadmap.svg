@@ -26,6 +26,12 @@
   <text x="200" y="276" text-anchor="middle" font-size="13" font-weight="600" fill="#333">다중 시점 기하학</text>
   <text x="200" y="295" text-anchor="middle" font-size="11.5" fill="#6b7178">epipolar geometry · 특징점 매칭</text>
 
+  <path d="M200,306 L200,326" stroke="#8a9199" fill="none" stroke-width="1.3" marker-end="url(#ar)"/>
+  <rect x="60" y="328" width="280" height="66" rx="10" fill="#fbeed6" stroke="#e6cfa0"/>
+  <text x="200" y="352" text-anchor="middle" font-size="13" font-weight="700" fill="#b5761a">SfM · MVS (전통 파이프라인)</text>
+  <text x="200" y="371" text-anchor="middle" font-size="11.5" fill="#b5761a">incremental SfM · bundle adjustment</text>
+  <text x="200" y="386" text-anchor="middle" font-size="11.5" fill="#b5761a">MVS 조밀화 → dense 복원 (COLMAP)</text>
+
   <!-- branch 2 : representation (green) -->
   <rect x="540" y="110" width="280" height="42" rx="11" fill="#e6f4ea" stroke="#b7dcc0"/>
   <text x="680" y="137" text-anchor="middle" font-size="15" font-weight="700" fill="#2e7d46">2. 3D 데이터 표현 및 처리</text>
@@ -47,5 +53,5 @@
   <text x="680" y="383" text-anchor="middle" font-size="11.5" fill="#b5761a">NeRF · 3DGS</text>
 
   <!-- caption -->
-  <text x="440" y="440" text-anchor="middle" font-size="12.5" fill="#6b7178">기하학으로 카메라와 대응을 풀고 → point cloud·voxel·mesh로 표현하고 → 신경망 표현으로 확장한다</text>
+  <text x="440" y="440" text-anchor="middle" font-size="12.5" fill="#6b7178">기하학으로 카메라와 대응을 풀고 → SfM·MVS로 복원하고 → point cloud·voxel·mesh로 표현하고 → 신경망 표현으로 확장한다</text>
 </svg>

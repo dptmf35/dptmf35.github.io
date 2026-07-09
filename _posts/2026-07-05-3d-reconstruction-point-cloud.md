@@ -1,5 +1,5 @@
 ---
-title: "[공부] 3D Reconstruction ② point cloud — 노이즈 제거와 downsampling"
+title: "[공부] 3D Reconstruction ③ point cloud — 노이즈 제거와 downsampling"
 excerpt: "가장 날것의 3D 표현인 point cloud. outlier를 걷어내는 통계·반경 기반 필터와, 균일·경량화를 위한 voxel downsampling을 정리한다."
 date: 2026-07-05 10:00:00 +0900
 categories:
@@ -18,7 +18,7 @@ toc_sticky: true
 
 ## 1. point cloud란
 
-**point cloud**는 3D 점 $$\{p_i = (x_i, y_i, z_i)\}$$ 의 집합이다. 깊이 카메라·LiDAR·스테레오·[삼각측량]({% post_url 2026-07-05-3d-reconstruction-geometry %})의 직접 출력이라 **센서에 가장 가깝다**.
+**point cloud**는 3D 점 $$\{p_i = (x_i, y_i, z_i)\}$$ 의 집합이다. 깊이 카메라·LiDAR·스테레오·[triangulation]({% post_url 2026-07-05-3d-reconstruction-geometry %})·[SfM·MVS]({% post_url 2026-07-05-3d-reconstruction-sfm-mvs %})의 직접 출력이라 **센서에 가장 가깝다**.
 
 - 장점: 표현이 단순하고 센서 출력 그대로
 - 단점: **표면·연결 정보가 없다**. 점 사이가 비어 있고, 노이즈·밀도 편차가 크다
@@ -64,4 +64,4 @@ toc_sticky: true
 
 - point cloud는 **날것이라 강력하지만, 다듬어야 쓸 수 있다.**
 - 다음 단계는 점을 **격자(voxel)로 융합**해 표면을 담는 것이다.
-- 다음 글: [3D Reconstruction ③ voxel·volume 표현 — TSDF와 Marching Cubes]({% post_url 2026-07-05-3d-reconstruction-voxel-tsdf %})
+- 다음 글: [3D Reconstruction ④ voxel·volume 표현 — TSDF와 Marching Cubes]({% post_url 2026-07-05-3d-reconstruction-voxel-tsdf %})
