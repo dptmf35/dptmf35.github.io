@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 390" font-family="Pretendard, 'Malgun Gothic', sans-serif">
+  <!-- baseline -->
+  <line x1="170" y1="330" x2="590" y2="330" stroke="#c9ccd1" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="380" y="348" text-anchor="middle" font-size="13" fill="#6b7178">baseline b</text>
+
+  <!-- left ray: solid then dashed -->
+  <line x1="170" y1="330" x2="308" y2="195" stroke="#2c5aa0" stroke-width="2"/>
+  <line x1="308" y1="195" x2="365" y2="139" stroke="#2c5aa0" stroke-width="2" stroke-dasharray="6 5"/>
+  <!-- right ray -->
+  <line x1="590" y1="330" x2="452" y2="195" stroke="#2e7d46" stroke-width="2"/>
+  <line x1="452" y1="195" x2="390" y2="139" stroke="#2e7d46" stroke-width="2" stroke-dasharray="6 5"/>
+
+  <!-- image planes -->
+  <line x1="219" y1="235" x2="281" y2="267" stroke="#8a9199" stroke-width="2"/>
+  <line x1="477" y1="267" x2="539" y2="235" stroke="#8a9199" stroke-width="2"/>
+  <circle cx="250" cy="251" r="5.5" fill="#e9f1fb" stroke="#2c5aa0" stroke-width="2"/>
+  <circle cx="508" cy="251" r="5.5" fill="#e6f4ea" stroke="#2e7d46" stroke-width="2"/>
+  <text x="238" y="278" font-size="15" fill="#2c5aa0" font-style="italic">x</text>
+  <text x="512" y="278" font-size="15" fill="#2e7d46" font-style="italic">x′</text>
+
+  <!-- camera centers -->
+  <circle cx="170" cy="330" r="7" fill="#333"/>
+  <circle cx="590" cy="330" r="7" fill="#333"/>
+  <text x="152" y="322" font-size="16" fill="#333" font-style="italic">C</text>
+  <text x="596" y="322" font-size="16" fill="#333" font-style="italic">C′</text>
+
+  <!-- gap between ray ends -->
+  <line x1="365" y1="139" x2="390" y2="139" stroke="#c96b6b" stroke-width="1.6" stroke-dasharray="3 3"/>
+  <circle cx="377.5" cy="139" r="20" fill="none" stroke="#c96b6b" stroke-width="1.4" stroke-dasharray="4 4"/>
+  <circle cx="377.5" cy="139" r="6" fill="#fdeeee" stroke="#c96b6b" stroke-width="2"/>
+  <text x="377.5" y="112" text-anchor="middle" font-size="16" fill="#c96b6b" font-style="italic">X̂</text>
+
+  <!-- annotations -->
+  <text x="378" y="76" text-anchor="middle" font-size="14" fill="#333">노이즈 때문에 두 ray는 정확히 만나지 않는다</text>
+  <text x="378" y="95" text-anchor="middle" font-size="13" fill="#6b7178">→ 재투영 오차를 최소화하는 X̂ 를 찾는다</text>
+  <text x="230" y="200" font-size="13" fill="#6b7178">back-projected ray</text>
+
+  <text x="380" y="378" text-anchor="middle" font-size="13" fill="#6b7178">두 시점의 대응 x ↔ x′ 와 자세 (R, t)가 주어지면 3D 점을 복원한다 — triangulation</text>
+</svg>
