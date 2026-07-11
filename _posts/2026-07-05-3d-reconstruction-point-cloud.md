@@ -32,7 +32,7 @@ toc_sticky: true
 - **Statistical Outlier Removal**: 각 점에서 **k개 최근접 이웃까지의 평균 거리**를 구하고, 전체 분포에서 평균 + $$\alpha\sigma$$ 를 넘는 점을 제거한다. 주변보다 유독 먼 점이 걸린다
 - **Radius Outlier Removal**: 반경 $$r$$ 안의 이웃 개수가 임계값보다 적으면 제거한다. 고립된 점을 직접 걸러낸다
 
-![원본의 밀집 point cloud과 outlier를 제거하고, voxel 격자로 downsampling해 균일·경량화하는 과정](/assets/images/3drecon-pointcloud-filter.svg)
+![원본의 밀집 point cloud와 outlier를 제거하고, voxel 격자로 downsampling해 균일·경량화하는 과정](/assets/images/3drecon-pointcloud-filter.svg)
 
 ## 3. downsampling
 

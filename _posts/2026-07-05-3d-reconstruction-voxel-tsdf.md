@@ -15,13 +15,13 @@ toc: true
 toc_sticky: true
 ---
 
-> [학습 로드맵]({% post_url 2026-07-05-3d-reconstruction-roadmap %})의 두 번째 데이터 표현. 여러 프레임의 [point cloud]({% post_url 2026-07-05-3d-reconstruction-point-cloud %})을 하나의 **격자(volume)**로 융합해 매끈한 표면을 만드는 방법이다.
+> [학습 로드맵]({% post_url 2026-07-05-3d-reconstruction-roadmap %})의 두 번째 데이터 표현. 여러 프레임의 [point cloud]({% post_url 2026-07-05-3d-reconstruction-point-cloud %})를 하나의 **격자(volume)**로 융합해 매끈한 표면을 만드는 방법이다.
 
 ## 1. voxel·volume 표현
 
 **voxel**은 2D 픽셀의 3D 버전으로, 공간을 정육면체 격자로 나눈 단위다. 각 voxel에 값을 저장해 **공간 전체를 표현**한다.
 
-- point cloud과 달리 **공간을 빈틈없이 채워** 표면 안/밖을 구분할 수 있다
+- point cloud와 달리 **공간을 빈틈없이 채워** 표면 안/밖을 구분할 수 있다
 - 여러 시점의 관측을 같은 격자에 **누적·평균**해 노이즈를 줄인다(센서 융합)
 - 한계: 해상도를 높이면 메모리가 $$O(n^3)$$ 으로 급증한다
 

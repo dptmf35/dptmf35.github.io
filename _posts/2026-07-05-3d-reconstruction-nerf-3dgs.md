@@ -64,7 +64,7 @@ $$
 1. 각 Gaussian을 이미지 평면에 **투영(splat)**해 2D 타원으로 만든다
 2. 깊이 순으로 정렬해 **알파 블렌딩**으로 합성한다
 
-- **명시적(explicit)** 표현: Gaussian point cloud이 그대로 기하 구조다
+- **명시적(explicit)** 표현: Gaussian point cloud가 그대로 기하 구조다
 - GPU rasterization라 **실시간 렌더링**이 가능하다(속도 빠름, 연산 부하 낮음)
 
 ## 4. 비교
@@ -77,7 +77,7 @@ $$
 | 연산 부하 | 큼 | 낮음 |
 | Sim2Real 연동 | 어려움(부피 데이터) | 용이(명시적 기하) |
 
-**로봇 관점**에서 3DGS의 **명시적 기하**는 큰 장점이다. Gaussian point cloud을 mesh·충돌 형상으로 옮기기 쉬워, 복원한 장면을 시뮬레이터에 넣는 **Sim2Real**에 유리하다.
+**로봇 관점**에서 3DGS의 **명시적 기하**는 큰 장점이다. Gaussian point cloud를 mesh·충돌 형상으로 옮기기 쉬워, 복원한 장면을 시뮬레이터에 넣는 **Sim2Real**에 유리하다.
 
 ## 정리 & 시리즈 마무리
 
