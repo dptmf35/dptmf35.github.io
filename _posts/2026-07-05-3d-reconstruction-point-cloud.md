@@ -1,6 +1,6 @@
 ---
 title: "[공부] 3D Reconstruction ③ point cloud — 노이즈 제거와 downsampling"
-excerpt: "가장 날것의 3D 표현인 point cloud. outlier를 걷어내는 통계·반경 기반 필터와, 균일·경량화를 위한 voxel downsampling을 정리한다."
+excerpt: "outlier 필터와 voxel downsampling으로 point cloud를 다듬는 전처리 기법"
 date: 2026-07-05 10:00:00 +0900
 categories:
   - 공부

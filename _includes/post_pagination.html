@@ -1,0 +1,32 @@
+{% assign locale = include.locale | default: site.locale %}
+{% comment %} 글의 카테고리(공부/논문리뷰 + 세부 분야)에 맞는 목록 페이지 URL 계산 {% endcomment %}
+{% assign main_cat = page.categories | first %}
+{% case main_cat %}
+  {% when '공부' %}
+    {% assign list_base = '/study/' %}
+  {% when '논문리뷰' %}
+    {% assign list_base = '/paper-reviews/' %}
+  {% else %}
+    {% assign list_base = '/posts/' %}
+{% endcase %}
+{% if page.categories.size > 1 and list_base != '/posts/' %}
+  {% assign sub_cat = page.categories[1] | downcase %}
+  {% capture list_url %}{{ list_base }}{{ sub_cat }}/{% endcapture %}
+{% else %}
+  {% assign list_url = list_base %}
+{% endif %}
+{% if page.previous or page.next %}
+  <nav class="pagination" aria-label="Post pagination">
+    {% if page.previous %}
+      <a href="{{ page.previous.url | relative_url }}" class="pagination--pager" title="{{ page.previous.title | markdownify | strip_html | strip}}">{{ site.data.ui-text[locale].pagination_previous | default: "Previous" }}</a>
+    {% else %}
+      <a href="#" class="pagination--pager disabled">{{ site.data.ui-text[locale].pagination_previous | default: "Previous" }}</a>
+    {% endif %}
+    <a href="{{ list_url | relative_url }}" class="pagination--pager" title="{{ page.categories | join: ' · ' }} 목록">목록</a>
+    {% if page.next %}
+      <a href="{{ page.next.url | relative_url }}" class="pagination--pager" title="{{ page.next.title | markdownify | strip_html | strip}}">{{ site.data.ui-text[locale].pagination_next | default: "Next" }}</a>
+    {% else %}
+      <a href="#" class="pagination--pager disabled">{{ site.data.ui-text[locale].pagination_next | default: "Next" }}</a>
+    {% endif %}
+  </nav>
+{% endif %}

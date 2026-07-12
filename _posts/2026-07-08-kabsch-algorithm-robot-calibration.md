@@ -1,6 +1,6 @@
 ---
 title: "[공부] 로봇 calibration을 위한 Kabsch 알고리즘 — 기준점·측정점 정렬의 수학"
-excerpt: "로봇 base·tool calibration에서 기준점과 측정점을 잇는 최적 rigid transform (R, t)을 닫힌형으로 구하는 Kabsch 알고리즘을, 문제 정의부터 SVD 유도·reflection 처리·구현·잔차 해석까지 정리한다."
+excerpt: "기준점·측정점을 잇는 최적 rigid transform (R, t)을 SVD 한 번으로 구하는 Kabsch 알고리즘"
 date: 2026-07-08 12:00:00 +0900
 categories:
   - 공부

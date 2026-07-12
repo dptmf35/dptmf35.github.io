@@ -1,6 +1,6 @@
 ---
 title: "[논문리뷰] PPO: Proximal Policy Optimization Algorithms (2017)"
-excerpt: "TRPO의 안정성을 1차 최적화만으로 달성한 PPO. clipped surrogate objective의 설계 의도부터 실험, 결론까지 논문의 구성을 따라 정리한다."
+excerpt: "clipped surrogate objective로 TRPO의 안정성을 1차 최적화만으로 달성한 PPO 논문 리뷰"
 date: 2026-07-05
 categories:
   - 논문리뷰

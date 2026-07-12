@@ -1,6 +1,6 @@
 ---
 title: "[공부] 로봇 비전을 위한 3D Reconstruction — 학습 로드맵"
-excerpt: "2D 이미지에서 3D 세계를 복원하는 3D Reconstruction. 기초 기하학부터 point cloud·voxel·mesh 표현, NeRF·3DGS까지 이어지는 학습 트리를 한눈에 정리한다."
+excerpt: "기초 기하학부터 point cloud·voxel·mesh, NeRF·3DGS까지 이어지는 3D Reconstruction 학습 트리"
 date: 2026-07-05 08:00:00 +0900
 categories:
   - 공부
@@ -8,7 +8,6 @@ categories:
 tags:
   - 3D Reconstruction
   - robot vision
-  - roadmap
 toc: true
 toc_sticky: true
 ---

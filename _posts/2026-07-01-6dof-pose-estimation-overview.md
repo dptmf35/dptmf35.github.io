@@ -1,6 +1,6 @@
 ---
 title: "[공부] 매니퓰레이터 조작을 위한 6DoF 포즈 추정 — 개요와 방법론 분류"
-excerpt: "로봇 매니퓰레이션에서 6DoF 포즈 추정이 왜 필요한지, 그리고 마커·포인트 정합·모델 기반 세 갈래로 방법론을 정리한 시리즈 개요."
+excerpt: "로봇 매니퓰레이션을 위한 6DoF pose 추정의 필요성과 마커·점 정합·모델 기반 세 갈래 방법론 개요"
 date: 2026-07-01
 categories:
   - 공부
@@ -9,7 +9,6 @@ tags:
   - 6DoF pose estimation
   - manipulation
   - robot vision
-  - overview
 toc: true
 toc_sticky: true
 ---

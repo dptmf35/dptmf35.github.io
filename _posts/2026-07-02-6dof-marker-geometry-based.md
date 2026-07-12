@@ -1,6 +1,6 @@
 ---
 title: "[공부] 마커 & 기하 기반 6DoF 추정 — AprilTag, PnP, LINEMOD"
-excerpt: "AprilTag·ArUco 같은 인공 마커와 PnP, 그리고 무늬 없는 물체를 위한 template 기반 LINEMOD까지, 전통적인 기하 기반 6DoF 추정을 정리한다."
+excerpt: "AprilTag·ArUco 마커와 PnP, template 기반 LINEMOD까지 전통 기하 기반 6DoF 추정"
 date: 2026-07-02
 categories:
   - 공부

@@ -1,6 +1,6 @@
 ---
 title: "[공부] 3D Reconstruction ⑤ 신경망 기반 표현 — NeRF vs 3DGS"
-excerpt: "장면을 신경망·Gaussian으로 연속 표현하는 최신 접근. volume rendering의 NeRF와 rasterization의 3DGS를 인터랙티브 위젯으로 비교한다."
+excerpt: "volume rendering의 NeRF와 rasterization의 3DGS — 신경망 기반 연속 표현 비교"
 date: 2026-07-05 12:00:00 +0900
 categories:
   - 공부

@@ -1,6 +1,6 @@
 ---
 title: "[공부] point cloud 정합 기반 6DoF 추정 — ICP, FPFH, TEASER++"
-excerpt: "관측 point cloud를 물체 모델에 맞추는 registration으로 6DoF를 구한다. 지역 정합 ICP, 전역 정합 FPFH+RANSAC, 그리고 극단적 outlier에도 강인·인증 가능한 TEASER++까지."
+excerpt: "ICP·FPFH+RANSAC·TEASER++로 관측 point cloud를 모델에 정합하는 registration 기반 6DoF 추정"
 date: 2026-07-03
 categories:
   - 공부

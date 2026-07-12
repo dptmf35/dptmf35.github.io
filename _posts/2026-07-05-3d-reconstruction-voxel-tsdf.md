@@ -1,6 +1,6 @@
 ---
 title: "[공부] 3D Reconstruction ④ voxel·volume 표현 — TSDF와 Marching Cubes"
-excerpt: "공간을 격자로 나눠 표면을 담는 volume 표현. 부호 거리로 표면을 저장하는 TSDF 원리와, 이를 삼각형 mesh로 뽑아내는 Marching Cubes를 정리한다."
+excerpt: "부호 거리로 표면을 담는 TSDF와 삼각형 mesh를 뽑아내는 Marching Cubes"
 date: 2026-07-05 11:00:00 +0900
 categories:
   - 공부

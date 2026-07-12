@@ -1,6 +1,6 @@
 ---
 title: "[공부] 3D Reconstruction ① 기초 기하학 — camera calibration과 다중 시점 기하학"
-excerpt: "3D 복원의 출발점. 카메라 투영 모델과 calibration, epipolar geometry, feature matching과 descriptor, RANSAC, triangulation까지 — 두 시점에서 3D 점을 복원하는 기하학 전체를 정리한다."
+excerpt: "카메라 투영 모델·calibration·epipolar geometry·RANSAC·triangulation — 두 시점 3D 복원의 기하학"
 date: 2026-07-05 09:00:00 +0900
 categories:
   - 공부

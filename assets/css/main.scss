@@ -83,3 +83,30 @@ code, pre, kbd, samp {
     padding-inline: 0;
   }
 }
+
+// 게시글 하단 페이지네이션: 이전·목록·다음 3버튼 (기본 2버튼 50% → 33.3%)
+.pagination--pager {
+  width: 33.3333%;
+}
+
+// 게시글 목록: excerpt 대신 태그 칩 리스트
+.archive__item-tags {
+  margin: 0.35em 0 0;
+
+  .archive__item-tag {
+    display: inline-block;
+    font-size: 0.72em;
+    line-height: 1.6;
+    padding: 0.1em 0.75em;
+    margin: 0 0.35em 0.35em 0;
+    border-radius: 999px;
+    background: #f1f2f4;
+    color: #555;
+    text-decoration: none;
+
+    &:hover {
+      background: #e2e5ea;
+      color: #333;
+    }
+  }
+}

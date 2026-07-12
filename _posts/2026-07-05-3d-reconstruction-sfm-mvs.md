@@ -1,6 +1,6 @@
 ---
 title: "[공부] 3D Reconstruction ② SfM·MVS — 이미지 뭉치에서 dense 3D까지, 전통 파이프라인"
-excerpt: "3D reconstruction의 전통 본체. 순서 없는 사진들에서 카메라 자세와 sparse 구조를 복원하는 SfM(incremental·bundle adjustment)과, 이를 dense하게 만드는 MVS를 COLMAP 파이프라인 순서로 정리한다."
+excerpt: "SfM(incremental·bundle adjustment)과 MVS로 이어지는 전통 3D reconstruction 파이프라인"
 date: 2026-07-05 09:30:00 +0900
 categories:
   - 공부

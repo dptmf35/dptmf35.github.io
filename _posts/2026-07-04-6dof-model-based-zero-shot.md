@@ -1,6 +1,6 @@
 ---
 title: "[공부] Model-based Zero-shot 6DoF 추정 — FoundationPose & SAM-6D"
-excerpt: "CAD 모델이나 소수 참조 이미지만으로 학습 없이 새로운 물체의 6DoF를 추정하는 최신 파운데이션 접근. render-and-compare 기반 FoundationPose와 SAM 기반 SAM-6D를 정리한다."
+excerpt: "CAD·참조 이미지만으로 novel object의 6DoF를 추정하는 FoundationPose와 SAM-6D"
 date: 2026-07-04
 categories:
   - 공부
