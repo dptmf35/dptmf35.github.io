@@ -1,5 +1,5 @@
 ---
-title: "[공부] 마커 & 기하 기반 6DoF 추정 — AprilTag, PnP, LINEMOD"
+title: "[공부] 마커 & 기하 기반 6DoF 추정 — fiducial marker, PnP, LINEMOD"
 excerpt: "AprilTag·ArUco 마커와 PnP, template 기반 LINEMOD까지 전통 기하 기반 6DoF 추정"
 date: 2026-07-02
 categories:
