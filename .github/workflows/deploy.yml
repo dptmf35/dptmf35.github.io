@@ -32,6 +32,9 @@ jobs:
       - name: Setup Pages
         id: pages
         uses: actions/configure-pages@v5
+        with:
+          # Pages가 꺼져 있으면 자동으로 재활성화 (unpublish로 인한 배포 실패 방지)
+          enablement: true
 
       - name: Build with Jekyll
         run: bundle exec jekyll build --baseurl "${{ steps.pages.outputs.base_path }}"
