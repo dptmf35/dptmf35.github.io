@@ -7,8 +7,4 @@ toc: false
 
 ## Hi, AI Robotics Engineer Yeseul Jeong 🤗
 
-**AI(머신러닝/딥러닝), 로보틱스, 데이터 엔지니어링** 에 깊은 관심을 두고 공부하고 있습니다.
-
-- 이미지, 텍스트, 센서 데이터 등 다양한 **정형·비정형 데이터**를 파고드는 것을 좋아합니다.
-- **파운데이션 모델**을 활용해 여러 도메인에서 실용적인 솔루션을 만드는 데 관심이 많습니다.
-- **데이터 수집·가공부터 학습·평가까지** 파이프라인 전체를 자동화하는 것을 지향합니다.
+Exploring AI, Data Engineering, Robotics, and Automation.
