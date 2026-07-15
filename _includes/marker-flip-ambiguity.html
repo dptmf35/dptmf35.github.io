@@ -1,0 +1,138 @@
+<style>
+.mf-card{border:1px solid #e2e5ea;border-radius:14px;padding:18px 18px 14px;margin:22px 0;background:#fbfcfd;font-family:Pretendard,'Malgun Gothic',sans-serif;color:#333}
+.mf-title{font-size:15px;font-weight:600;color:#2c5aa0;margin:0 0 4px}
+.mf-sub{font-size:13px;color:#6b7178;margin:0 0 12px}
+.mf-canvas-wrap{position:relative;width:100%;background:#fff;border:1px solid #eceef1;border-radius:10px;overflow:hidden}
+.mf-canvas-wrap canvas{display:block;width:100%;height:auto}
+.mf-controls{display:flex;flex-wrap:wrap;gap:10px 16px;align-items:center;margin-top:12px;font-size:13px}
+.mf-controls label{display:flex;align-items:center;gap:6px}
+.mf-controls input[type=range]{width:110px}
+.mf-btn{border:1px solid #b9d0ec;background:#e9f1fb;color:#2c5aa0;border-radius:8px;padding:6px 13px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.mf-btn:hover{background:#dceaf6}
+.mf-btn.sec{border-color:#d5d8dd;background:#f1f2f4;color:#555}
+.mf-stats{display:flex;gap:16px;flex-wrap:wrap;margin-top:8px;font-size:13px}
+.mf-stats b{font-family:'SFMono-Regular',Consolas,monospace;font-weight:700;color:#2e7d46}
+.mf-stats b.warn{color:#c96b6b}
+</style>
+
+<div class="mf-card">
+  <p class="mf-title">평면 마커의 pose ambiguity — flip은 언제 일어나는가</p>
+  <p class="mf-sub">마커가 +θ로 기울어 있다(정답, 파랑). 하지만 거울상 기울기 −θ(주황)도 비슷한 재투영을 만든다. <b>거리를 멀리</b>, <b>노이즈를 크게</b> 해 보면 — 두 해의 오차가 비슷해지고, 프레임마다 선택이 뒤집히는 flip이 눈에 보인다.</p>
+  <div class="mf-canvas-wrap"><canvas id="mf-cv"></canvas></div>
+  <div class="mf-controls">
+    <label>기울기 θ <input type="range" id="mf-th" min="5" max="45" value="25" step="1"><span id="mf-thv">25°</span></label>
+    <label>거리 Z <input type="range" id="mf-z" min="3" max="20" value="5" step="0.5"><span id="mf-zv">5m</span></label>
+    <label>코너 노이즈 σ <input type="range" id="mf-n" min="0" max="2" value="0.5" step="0.1"><span id="mf-nv">0.5px</span></label>
+    <button class="mf-btn" id="mf-play">▶ 재생</button>
+    <button class="mf-btn sec" id="mf-reset">↺ 리셋</button>
+  </div>
+  <div class="mf-stats">
+    <span>오차 E(+θ) = <b id="mf-e1">–</b></span>
+    <span>오차 E(−θ) = <b id="mf-e2">–</b></span>
+    <span>최근 120프레임 flip: <b id="mf-fl">0</b>회</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  var cv=document.getElementById('mf-cv'),ctx=cv.getContext('2d');
+  var W=640,H=300,DPR=Math.max(1,window.devicePixelRatio||1);
+  function resize(){var w=cv.parentNode.clientWidth||W;var s=w/W;cv.style.height=(H*s)+'px';cv.width=Math.round(W*s*DPR);cv.height=Math.round(H*s*DPR);ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0);}
+  window.addEventListener('resize',resize);
+
+  var th=25*Math.PI/180, Z=5, sig=0.5, f=600, s=0.5; // 마커 반변 s(m), 초점 f(px)
+  var playing=false, hist=[], flips=0;
+  var elE1=document.getElementById('mf-e1'),elE2=document.getElementById('mf-e2'),elF=document.getElementById('mf-fl');
+
+  function corners3D(t){ // 기울기 t로 회전한 마커 코너 (x축 회전), 중심 (0,0,Z)
+    var pts=[[-s,-s],[s,-s],[s,s],[-s,s]],out=[];
+    for(var i=0;i<4;i++){
+      var x=pts[i][0],y=pts[i][1];
+      out.push([x, y*Math.cos(t), Z + y*Math.sin(t)]);
+    }
+    return out;
+  }
+  function project(P){ // 픽셀 좌표 (이미지 중심 원점)
+    return P.map(function(p){return [f*p[0]/p[2], f*p[1]/p[2]];});
+  }
+  function gauss(){var u=1-Math.random(),v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+
+  var obs=[], chosen=1;
+  function sample(){
+    var truePx=project(corners3D(th));
+    obs=truePx.map(function(p){return [p[0]+gauss()*sig, p[1]+gauss()*sig];});
+    var e1=rms(project(corners3D(th)),obs), e2=rms(project(corners3D(-th)),obs);
+    var c=(e1<=e2)?1:-1;
+    hist.push(c); if(hist.length>120)hist.shift();
+    flips=0; for(var i=1;i<hist.length;i++) if(hist[i]!==hist[i-1])flips++;
+    chosen=c;
+    elE1.textContent=e1.toFixed(2)+'px'; elE2.textContent=e2.toFixed(2)+'px';
+    elE1.className=''; elE2.className='';
+    (c===1?elE1:elE2).className='';
+    elF.textContent=flips; elF.className=flips>10?'warn':'';
+    return [e1,e2];
+  }
+  function rms(A,B){var t=0;for(var i=0;i<4;i++){var dx=A[i][0]-B[i][0],dy=A[i][1]-B[i][1];t+=dx*dx+dy*dy;}return Math.sqrt(t/4);}
+
+  function quadPath(px,cx,cy,zoom){
+    ctx.beginPath();
+    for(var i=0;i<4;i++){var x=cx+px[i][0]*zoom,y=cy+px[i][1]*zoom;i?ctx.lineTo(x,y):ctx.moveTo(x,y);}
+    ctx.closePath();
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // 좌: 이미지 뷰 (자동 줌)
+    var cx=170,cy=150, halfPx=f*s/Z, zoom=Math.min(100/halfPx,12);
+    ctx.font='12px sans-serif';ctx.fillStyle='#6b7178';
+    ctx.fillText('이미지 뷰 (관측 코너와 두 해의 재투영)',30,22);
+    ctx.fillText('옆에서 본 두 pose 후보',420,22);
+    ctx.strokeStyle='#eceef1';ctx.beginPath();ctx.moveTo(345,10);ctx.lineTo(345,290);ctx.stroke();
+    var p1=project(corners3D(th)),p2=project(corners3D(-th));
+    // 선택되지 않은 해 (점선)
+    var pick=(chosen===1)?p1:p2, other=(chosen===1)?p2:p1;
+    ctx.setLineDash([5,4]);ctx.strokeStyle=(chosen===1)?'#e6a23c':'#2c5aa0';ctx.lineWidth=1.6;
+    quadPath(other,cx,cy,zoom);ctx.stroke();ctx.setLineDash([]);
+    // 선택된 해 (실선)
+    ctx.strokeStyle=(chosen===1)?'#2c5aa0':'#e6a23c';ctx.lineWidth=2.2;
+    quadPath(pick,cx,cy,zoom);ctx.stroke();
+    // 관측 코너
+    for(var i=0;i<4;i++){
+      ctx.beginPath();ctx.arc(cx+obs[i][0]*zoom,cy+obs[i][1]*zoom,4,0,6.2832);
+      ctx.fillStyle='#333';ctx.fill();
+    }
+    // 우: 옆모습 (y-z 평면)
+    var ox=520,oy=160,sc=40;
+    ctx.fillStyle='#333';ctx.beginPath();ctx.arc(ox-120,oy,6,0,6.2832);ctx.fill();
+    ctx.fillStyle='#6b7178';ctx.fillText('카메라',ox-140,oy+22);
+    ctx.strokeStyle='#c9ccd1';ctx.setLineDash([4,4]);
+    ctx.beginPath();ctx.moveTo(ox-114,oy);ctx.lineTo(ox+70,oy);ctx.stroke();ctx.setLineDash([]);
+    function plane(t,col,wd){
+      ctx.strokeStyle=col;ctx.lineWidth=wd;
+      ctx.beginPath();
+      ctx.moveTo(ox - Math.sin(t)*sc, oy - Math.cos(t)*sc);
+      ctx.lineTo(ox + Math.sin(t)*sc, oy + Math.cos(t)*sc);
+      ctx.stroke();
+    }
+    plane(chosen===1?-th:th, chosen===1?'#e6a23c':'#2c5aa0', 1.6);
+    plane(chosen===1?th:-th, chosen===1?'#2c5aa0':'#e6a23c', 3);
+    ctx.fillStyle='#2c5aa0';ctx.fillText('+θ (정답)',ox+58,oy-42);
+    ctx.fillStyle='#e6a23c';ctx.fillText('−θ (거울상)',ox+58,oy+52);
+    ctx.fillStyle='#6b7178';
+    ctx.fillText('굵은 선 = 이번 프레임에 선택된 해',400,278);
+  }
+
+  var btn=document.getElementById('mf-play');
+  function tick(){ if(!playing)return; sample(); draw(); setTimeout(function(){requestAnimationFrame(tick);},120); }
+  btn.onclick=function(){playing=!playing;btn.textContent=playing?'❚❚ 일시정지':'▶ 재생';if(playing)tick();};
+  document.getElementById('mf-reset').onclick=function(){playing=false;btn.textContent='▶ 재생';hist=[];flips=0;sample();draw();};
+  function bind(id,vid,fn,fmt){
+    var el=document.getElementById(id),vv=document.getElementById(vid);
+    el.oninput=function(){fn(parseFloat(el.value));vv.textContent=fmt(el.value);hist=[];sample();draw();};
+  }
+  bind('mf-th','mf-thv',function(v){th=v*Math.PI/180;},function(v){return v+'°';});
+  bind('mf-z','mf-zv',function(v){Z=v;},function(v){return v+'m';});
+  bind('mf-n','mf-nv',function(v){sig=v;},function(v){return v+'px';});
+
+  resize();sample();draw();
+})();
+</script>
