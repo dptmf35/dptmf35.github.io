@@ -1,5 +1,5 @@
 ---
-title: "[공부] point cloud 정합 기반 6DoF 추정 — ICP, FPFH, TEASER++"
+title: "[공부] point cloud 정합 기반 6DoF 추정: ICP, FPFH, TEASER++"
 excerpt: "ICP·FPFH+RANSAC·TEASER++로 관측 point cloud를 모델에 정합하는 registration 기반 6DoF 추정"
 date: 2026-07-03
 categories:
@@ -27,7 +27,7 @@ $$
 
 대응 $$p_i \leftrightarrow q_i$$ 가 정확히 주어지면, 이 문제는 **닫힌 해**([SVD 기반 Procrustes/Kabsch]({% post_url 2026-07-08-kabsch-algorithm-robot-calibration %}))로 바로 풀린다. 현실의 어려움은 (1) 대응을 모른다, (2) 대응에 outlier가 많다는 점이다.
 
-## 2. 지역 정합 — ICP
+## 2. 지역 정합: ICP
 
 **ICP(Iterative Closest Point)** (Besl & McKay, 1992)는 가장 고전적인 방법이다.
 
@@ -40,7 +40,7 @@ $$
 
 즉 ICP는 보통 **정밀화(refinement)** 단계로 쓰고, 대략적 초기 정렬은 전역 정합이 담당한다.
 
-## 3. 전역 정합 — 특징 매칭 + RANSAC
+## 3. 전역 정합: 특징 매칭 + RANSAC
 
 초기값 없이 정렬하려면 **기하 특징 descriptor**로 대응 후보를 만든다.
 
@@ -50,7 +50,7 @@ $$
 
 문제는 특징 매칭 대응에 **outlier가 매우 많다**는 점이다. RANSAC은 outlier 비율이 높아질수록 필요한 반복 수가 급격히 늘어 느려지고 불안정해진다.
 
-## 4. TEASER++ — outlier에 강인하고 인증 가능
+## 4. TEASER++: outlier에 강인하고 인증 가능
 
 **TEASER++** (Yang, Shi, Carlone, *IEEE T-RO 2021*)는 대응의 **99% 이상이 outlier여도** 견고하게 동작하는 정합 알고리즘이다.
 

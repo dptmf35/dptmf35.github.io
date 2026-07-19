@@ -1,6 +1,6 @@
 ---
-title: "[공부] 3D Reconstruction ⑤ 신경망 기반 표현 — NeRF vs 3DGS"
-excerpt: "volume rendering의 NeRF와 rasterization의 3DGS — 신경망 기반 연속 표현 비교"
+title: "[공부] 3D Reconstruction ⑤ 신경망 기반 표현: NeRF vs 3DGS"
+excerpt: "volume rendering의 NeRF와 rasterization의 3DGS, 신경망 기반 연속 표현 비교"
 date: 2026-07-05 12:00:00 +0900
 categories:
   - 공부
@@ -30,7 +30,7 @@ toc_sticky: true
 
 *위젯의 **렌더링 모드**를 NeRF ↔ 3DGS로 바꿔 보면, 샘플링 방식·속도·연산 부하가 어떻게 달라지는지 보인다.*
 
-## 2. NeRF — volume rendering
+## 2. NeRF: volume rendering
 
 **NeRF(Neural Radiance Fields)**는 장면을 하나의 **MLP**로 표현한다. 위치 $$(x,y,z)$$ 와 시선 방향 $$(\theta, \phi)$$ 를 넣으면 색 $$c$$ 와 밀도 $$\sigma$$ 를 출력한다.
 
@@ -51,7 +51,7 @@ $$
 - **암시적(implicit)** 표현: 장면이 MLP 가중치 안에 들어 있다
 - 픽셀마다 수십~수백 점을 MLP로 질의하므로 **렌더링이 느리다**(연산 부하 큼)
 
-## 3. 3DGS — 명시적 Gaussian + rasterization
+## 3. 3DGS: 명시적 Gaussian + rasterization
 
 **3DGS(3D Gaussian Splatting)**는 장면을 수백만 개의 **3D Gaussian(타원체)** 집합으로 표현한다. 각 Gaussian은 위치·공분산(모양)·색·불투명도를 가진다.
 

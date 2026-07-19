@@ -1,5 +1,5 @@
 ---
-title: "[공부] 로봇 비전을 위한 3D Reconstruction — 학습 로드맵"
+title: "[공부] 로봇 비전을 위한 3D Reconstruction: 학습 로드맵"
 excerpt: "기초 기하학부터 point cloud·voxel·mesh, NeRF·3DGS까지 이어지는 3D Reconstruction 학습 트리"
 date: 2026-07-05 08:00:00 +0900
 categories:
@@ -37,7 +37,7 @@ toc_sticky: true
 
 - **camera calibration**: 내부(초점거리·주점)·외부(위치·자세) 파라미터를 추정한다
 - **다중 시점 기하학**: 두 시점 사이의 **epipolar geometry**로 대응을 제약하고, **특징점 매칭**으로 같은 3D 점을 찾는다
-- **SfM·MVS**: two-view 블록을 수백 장으로 확장해 **모든 카메라 자세 + sparse 구조**를 풀고(SfM·bundle adjustment), 픽셀 단위 깊이로 **dense 복원**까지 만든다(MVS) — COLMAP으로 대표되는 전통 파이프라인의 본체
+- **SfM·MVS**: two-view 블록을 수백 장으로 확장해 **모든 카메라 자세 + sparse 구조**를 풀고(SfM·bundle adjustment), 픽셀 단위 깊이로 **dense 복원**까지 만든다(MVS). COLMAP으로 대표되는 전통 파이프라인의 본체
 
 여기서 얻는 것은 **카메라 자세**와 **sparse~dense 3D 구조**다.
 
@@ -47,7 +47,7 @@ toc_sticky: true
 
 - **point cloud**: 가장 날것의 표현. 노이즈 제거·downsampling으로 다듬는다
 - **voxel·volume 표현**: 공간을 격자로 나눠 **TSDF**로 표면을 담고, **Marching Cubes**로 mesh를 뽑는다
-- **신경망 기반 표현**: **NeRF·3DGS** — 장면을 신경망/Gaussian으로 연속 표현한다
+- **신경망 기반 표현**: **NeRF·3DGS**. 장면을 신경망/Gaussian으로 연속 표현한다
 
 ## 4. 표현 방식 비교
 
@@ -63,4 +63,4 @@ toc_sticky: true
 
 - 3D Reconstruction은 **기하학으로 대응·자세를 풀고 → 표현으로 담는** 두 축으로 이해하면 깔끔하다.
 - 표현마다 강·약점이 달라, 용도(파지·내비·Sim2Real)에 맞게 고른다.
-- 다음 글: [3D Reconstruction ① 기초 기하학 — camera calibration과 다중 시점 기하학]({% post_url 2026-07-05-3d-reconstruction-geometry %})
+- 다음 글: [3D Reconstruction ① 기초 기하학: camera calibration과 다중 시점 기하학]({% post_url 2026-07-05-3d-reconstruction-geometry %})

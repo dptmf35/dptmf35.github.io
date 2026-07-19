@@ -1,5 +1,5 @@
 ---
-title: "[공부] 3D Reconstruction ③ point cloud — 노이즈 제거와 downsampling"
+title: "[공부] 3D Reconstruction ③ point cloud: 노이즈 제거와 downsampling"
 excerpt: "outlier 필터와 voxel downsampling으로 point cloud를 다듬는 전처리 기법"
 date: 2026-07-05 10:00:00 +0900
 categories:
@@ -64,4 +64,4 @@ toc_sticky: true
 
 - point cloud는 **날것이라 강력하지만, 다듬어야 쓸 수 있다.**
 - 다음 단계는 점을 **격자(voxel)로 융합**해 표면을 담는 것이다.
-- 다음 글: [3D Reconstruction ④ voxel·volume 표현 — TSDF와 Marching Cubes]({% post_url 2026-07-05-3d-reconstruction-voxel-tsdf %})
+- 다음 글: [3D Reconstruction ④ voxel·volume 표현: TSDF와 Marching Cubes]({% post_url 2026-07-05-3d-reconstruction-voxel-tsdf %})

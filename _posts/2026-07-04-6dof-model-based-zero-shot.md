@@ -1,5 +1,5 @@
 ---
-title: "[공부] Model-based Zero-shot 6DoF 추정 — FoundationPose & SAM-6D"
+title: "[공부] Model-based Zero-shot 6DoF 추정: FoundationPose & SAM-6D"
 excerpt: "CAD·참조 이미지만으로 novel object의 6DoF를 추정하는 FoundationPose와 SAM-6D"
 date: 2026-07-04
 categories:

@@ -16,8 +16,8 @@
 </style>
 
 <div class="mf-card">
-  <p class="mf-title">평면 마커의 pose ambiguity — flip은 언제 일어나는가</p>
-  <p class="mf-sub">마커가 +θ로 기울어 있다(정답, 파랑). 하지만 거울상 기울기 −θ(주황)도 비슷한 재투영을 만든다. <b>거리를 멀리</b>, <b>노이즈를 크게</b> 해 보면 — 두 해의 오차가 비슷해지고, 프레임마다 선택이 뒤집히는 flip이 눈에 보인다.</p>
+  <p class="mf-title">평면 마커의 pose ambiguity: flip은 언제 일어나는가</p>
+  <p class="mf-sub">마커가 +θ로 기울어 있다(정답, 파랑). 하지만 거울상 기울기 −θ(주황)도 비슷한 재투영을 만든다. <b>거리를 멀리</b>, <b>노이즈를 크게</b> 해 보면 두 해의 오차가 비슷해지고, 프레임마다 선택이 뒤집히는 flip이 눈에 보인다.</p>
   <div class="mf-canvas-wrap"><canvas id="mf-cv"></canvas></div>
   <div class="mf-controls">
     <label>기울기 θ <input type="range" id="mf-th" min="5" max="45" value="25" step="1"><span id="mf-thv">25°</span></label>
