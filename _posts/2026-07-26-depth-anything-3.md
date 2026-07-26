@@ -1,5 +1,5 @@
 ---
-title: "[논문리뷰] Depth Anything 3: Recovering the Visual Space from Any Views"
+title: "[논문리뷰] Depth Anything 3: Recovering the Visual Space from Any Views (2025)"
 excerpt: "depth와 ray map을 최소 prediction target으로 삼아 plain transformer 하나로 any-view geometry를 통일한 Depth Anything 3 논문 리뷰"
 date: 2026-07-26 12:00:00 +0900
 categories:
