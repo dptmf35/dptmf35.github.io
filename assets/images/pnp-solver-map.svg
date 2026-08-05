@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 400" font-family="Pretendard, 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="arrow3" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#8a9199"/>
+    </marker>
+  </defs>
+
+  <!-- minimal solver -->
+  <rect x="30" y="80" width="270" height="210" rx="12" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <rect x="65" y="56" width="200" height="34" rx="17" fill="#e9f1fb" stroke="#b9d0ec"/>
+  <text x="165" y="78" text-anchor="middle" font-size="15" fill="#2c5aa0" font-weight="600">Minimal solver (n=3)</text>
+  <text x="50" y="125" font-size="14" fill="#333">• P3P: 코사인 법칙 → 4차식</text>
+  <text x="50" y="150" font-size="14" fill="#333">• 해 최대 4개, 4번째 점으로 검증</text>
+  <text x="50" y="175" font-size="14" fill="#333">• Grunert / Kneip / Lambda Twist</text>
+  <text x="50" y="215" font-size="13" fill="#6b7178">RANSAC의 최소 표본으로 사용</text>
+  <text x="50" y="236" font-size="13" fill="#6b7178">(표본이 작을수록 반복 수 급감)</text>
+
+  <!-- closed-form n-point -->
+  <rect x="340" y="80" width="270" height="210" rx="12" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <rect x="370" y="56" width="210" height="34" rx="17" fill="#fbeed6" stroke="#e6cfa0"/>
+  <text x="475" y="78" text-anchor="middle" font-size="15" fill="#b5761a" font-weight="600">Closed-form (n점 일괄)</text>
+  <text x="360" y="125" font-size="14" fill="#333">• DLT: 선형, n≥6, K 낭비</text>
+  <text x="360" y="150" font-size="14" fill="#333">• EPnP: 제어점 4개, O(n)</text>
+  <text x="360" y="175" font-size="14" fill="#333">• IPPE: 평면 전용, 해석해 2개</text>
+  <text x="360" y="200" font-size="14" fill="#333">• SQPnP: 전역 최적, n≥3</text>
+  <text x="360" y="236" font-size="13" fill="#6b7178">대응이 많을 때 한 번에 풀기</text>
+
+  <!-- iterative -->
+  <rect x="650" y="80" width="260" height="210" rx="12" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <rect x="680" y="56" width="200" height="34" rx="17" fill="#e6f4ea" stroke="#b7dcc0"/>
+  <text x="780" y="78" text-anchor="middle" font-size="15" fill="#2e7d46" font-weight="600">Iterative (정밀화)</text>
+  <text x="670" y="125" font-size="14" fill="#333">• 재투영 오차 비선형 최소화</text>
+  <text x="670" y="150" font-size="14" fill="#333">• Gauss-Newton / LM</text>
+  <text x="670" y="175" font-size="14" fill="#333">• 초기해 필요, 정확도 최고</text>
+  <text x="670" y="215" font-size="13" fill="#6b7178">가우시안 픽셀 노이즈 가정의</text>
+  <text x="670" y="236" font-size="13" fill="#6b7178">maximum likelihood 추정</text>
+
+  <!-- arrows -->
+  <line x1="165" y1="292" x2="165" y2="330" stroke="#8a9199" stroke-width="1.5"/>
+  <line x1="475" y1="292" x2="475" y2="330" stroke="#8a9199" stroke-width="1.5"/>
+  <line x1="165" y1="330" x2="475" y2="330" stroke="#8a9199" stroke-width="1.5"/>
+  <line x1="475" y1="330" x2="740" y2="330" stroke="#8a9199" stroke-width="1.5"/>
+  <line x1="740" y1="330" x2="770" y2="296" stroke="#8a9199" stroke-width="1.5" marker-end="url(#arrow3)"/>
+  <text x="470" y="355" text-anchor="middle" font-size="13" fill="#6b7178">닫힌형 해를 초기값으로 넘겨 정밀화 (OpenCV solvePnPRansac의 기본 구성)</text>
+</svg>
