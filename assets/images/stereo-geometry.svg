@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 430" font-family="Pretendard, 'Malgun Gothic', sans-serif">
+  <!-- 3D point P -->
+  <circle cx="380" cy="52" r="6" fill="#2c5aa0"/>
+  <text x="380" y="36" font-size="15" fill="#2c5aa0" text-anchor="middle" font-weight="bold">P (물체 위 한 점)</text>
+
+  <!-- rays -->
+  <line x1="230" y1="360" x2="380" y2="52" stroke="#8a9199" stroke-width="1.5"/>
+  <line x1="530" y1="360" x2="380" y2="52" stroke="#8a9199" stroke-width="1.5"/>
+
+  <!-- optical axes (dashed) -->
+  <line x1="230" y1="360" x2="230" y2="80" stroke="#c9ccd1" stroke-width="1" stroke-dasharray="5 4"/>
+  <line x1="530" y1="360" x2="530" y2="80" stroke="#c9ccd1" stroke-width="1" stroke-dasharray="5 4"/>
+
+  <!-- image planes -->
+  <line x1="150" y1="300" x2="310" y2="300" stroke="#333" stroke-width="2"/>
+  <line x1="450" y1="300" x2="610" y2="300" stroke="#333" stroke-width="2"/>
+  <text x="148" y="288" font-size="12" fill="#6b7178">왼쪽 image plane</text>
+  <text x="448" y="288" font-size="12" fill="#6b7178">오른쪽 image plane</text>
+
+  <!-- projection points -->
+  <circle cx="259" cy="300" r="4.5" fill="#b5761a"/>
+  <text x="264" y="320" font-size="14" fill="#b5761a" font-weight="bold">x_L</text>
+  <circle cx="501" cy="300" r="4.5" fill="#2e7d46"/>
+  <text x="478" y="320" font-size="14" fill="#2e7d46" font-weight="bold">x_R</text>
+
+  <!-- principal points -->
+  <circle cx="230" cy="300" r="3" fill="#8a9199"/>
+  <circle cx="530" cy="300" r="3" fill="#8a9199"/>
+
+  <!-- camera centers -->
+  <circle cx="230" cy="360" r="6" fill="#333"/>
+  <circle cx="530" cy="360" r="6" fill="#333"/>
+  <text x="230" y="385" font-size="14" fill="#333" text-anchor="middle" font-weight="bold">O_L</text>
+  <text x="530" y="385" font-size="14" fill="#333" text-anchor="middle" font-weight="bold">O_R</text>
+
+  <!-- baseline -->
+  <line x1="236" y1="360" x2="524" y2="360" stroke="#2c5aa0" stroke-width="1.5"/>
+  <text x="380" y="378" font-size="14" fill="#2c5aa0" text-anchor="middle">baseline B</text>
+
+  <!-- focal length f -->
+  <line x1="205" y1="300" x2="205" y2="360" stroke="#6b7178" stroke-width="1"/>
+  <line x1="200" y1="300" x2="210" y2="300" stroke="#6b7178" stroke-width="1"/>
+  <line x1="200" y1="360" x2="210" y2="360" stroke="#6b7178" stroke-width="1"/>
+  <text x="188" y="334" font-size="13" fill="#6b7178" text-anchor="middle">f</text>
+
+  <!-- depth Z -->
+  <line x1="660" y1="52" x2="660" y2="360" stroke="#6b7178" stroke-width="1"/>
+  <line x1="655" y1="52" x2="665" y2="52" stroke="#6b7178" stroke-width="1"/>
+  <line x1="655" y1="360" x2="665" y2="360" stroke="#6b7178" stroke-width="1"/>
+  <text x="672" y="210" font-size="14" fill="#6b7178">Z (depth)</text>
+  <line x1="380" y1="52" x2="655" y2="52" stroke="#e4e6e8" stroke-width="1" stroke-dasharray="3 3"/>
+  <line x1="530" y1="360" x2="655" y2="360" stroke="#e4e6e8" stroke-width="1" stroke-dasharray="3 3"/>
+
+  <!-- disparity annotations under planes -->
+  <line x1="230" y1="308" x2="259" y2="308" stroke="#b5761a" stroke-width="2"/>
+  <line x1="501" y1="308" x2="530" y2="308" stroke="#2e7d46" stroke-width="2"/>
+
+  <!-- formula box -->
+  <rect x="40" y="70" width="230" height="96" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="56" y="98" font-size="14" fill="#333">disparity  d = x_L − x_R</text>
+  <text x="56" y="126" font-size="15" fill="#333" font-weight="bold">Z = f · B / d</text>
+  <text x="56" y="150" font-size="12" fill="#6b7178">가까운 물체일수록 d가 크다</text>
+</svg>
