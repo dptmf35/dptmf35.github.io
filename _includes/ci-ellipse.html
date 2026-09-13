@@ -1,0 +1,101 @@
+<style>
+.ci-card{border:1px solid #e2e5ea;border-radius:14px;padding:18px 18px 14px;margin:22px 0;background:#fbfcfd;font-family:Pretendard,'Malgun Gothic',sans-serif;color:#333}
+.ci-title{font-size:15px;font-weight:600;color:#2c5aa0;margin:0 0 4px}
+.ci-sub{font-size:13px;color:#6b7178;margin:0 0 12px}
+.ci-canvas-wrap{position:relative;width:100%;background:#fff;border:1px solid #eceef1;border-radius:10px;overflow:hidden}
+.ci-canvas-wrap canvas{display:block;width:100%;height:auto}
+.ci-controls{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:12px;font-size:13px}
+.ci-btn{border:1px solid #b9d0ec;background:#e9f1fb;color:#2c5aa0;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.ci-btn:hover{background:#dceaf6}
+.ci-btn.sec{border-color:#d5d8dd;background:#f1f2f4;color:#555}
+.ci-btn.sec:hover{background:#e8e9ec}
+.ci-sl{display:flex;align-items:center;gap:6px}
+.ci-sl input{width:140px}
+.ci-stat{display:flex;gap:18px;flex-wrap:wrap;margin-left:auto;font-size:13px}
+.ci-stat b{font-family:'SFMono-Regular',Consolas,monospace;color:#2e7d46;font-weight:700}
+.ci-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:#6b7178}
+.ci-line{display:inline-block;width:18px;height:3px;margin-right:5px;vertical-align:middle}
+.ci-dash{display:inline-block;width:18px;height:0;border-top:2px dashed;margin-right:5px;vertical-align:middle}
+</style>
+
+<div class="ci-card">
+  <p class="ci-title">Covariance Intersection: 두 covariance 타원과 ω</p>
+  <p class="ci-sub">파란 타원 P_a와 주황 타원 P_b가 상관을 모르는 두 추정치의 1σ 타원이다. ω 슬라이더를 움직이면 CI 결과(초록)가 P_a와 P_b 사이를 오가며, 항상 두 타원의 교집합을 감싼다. 점선은 독립을 가정한 Kalman fusion으로, 교집합 안쪽까지 파고든다.</p>
+  <div class="ci-canvas-wrap"><canvas id="ci-cv"></canvas></div>
+  <div class="ci-controls">
+    <label class="ci-sl">ω <input type="range" id="ci-w" min="0" max="1" step="0.01" value="0.5"><span id="ci-wv">0.50</span></label>
+    <button class="ci-btn" id="ci-opt">ω* (det 최소)</button>
+    <button class="ci-btn sec" id="ci-new">새 타원</button>
+    <div class="ci-stat">
+      <span>det(P_CI) = <b id="ci-det">–</b></span>
+      <span>det(P_KF) = <b id="ci-detkf">–</b></span>
+    </div>
+  </div>
+  <div class="ci-legend">
+    <span><i class="ci-line" style="background:#2c5aa0"></i>P_a</span>
+    <span><i class="ci-line" style="background:#b5761a"></i>P_b</span>
+    <span><i class="ci-line" style="background:#2e7d46"></i>CI 결과 P(ω)</span>
+    <span><i class="ci-dash" style="border-color:#8a9199"></i>독립 가정 fusion (P_a⁻¹+P_b⁻¹)⁻¹</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  var cv=document.getElementById('ci-cv'),ctx=cv.getContext('2d');
+  var sl=document.getElementById('ci-w'),wv=document.getElementById('ci-wv');
+  var elD=document.getElementById('ci-det'),elK=document.getElementById('ci-detkf');
+  var W=640,H=360,DPR=Math.max(1,window.devicePixelRatio||1);
+  function resize(){var w=cv.parentNode.clientWidth||W;var s=w/W;cv.style.height=(H*s)+'px';cv.width=Math.round(W*s*DPR);cv.height=Math.round(H*s*DPR);ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0);draw();}
+  window.addEventListener('resize',resize);
+
+  var Pa,Pb,cx=W/2,cy=H/2,scale=1;
+  function inv(P){var d=P[0][0]*P[1][1]-P[0][1]*P[1][0];return [[P[1][1]/d,-P[0][1]/d],[-P[1][0]/d,P[0][0]/d]];}
+  function add(A,B,s,t){return [[s*A[0][0]+t*B[0][0],s*A[0][1]+t*B[0][1]],[s*A[1][0]+t*B[1][0],s*A[1][1]+t*B[1][1]]];}
+  function det(P){return P[0][0]*P[1][1]-P[0][1]*P[1][0];}
+  function rot(a,l1,l2){var c=Math.cos(a),s=Math.sin(a);return [[c*c*l1+s*s*l2,c*s*(l1-l2)],[c*s*(l1-l2),s*s*l1+c*c*l2]];}
+  function gen(){
+    var a1=Math.random()*Math.PI,a2=a1+Math.PI/3+Math.random()*Math.PI/3;
+    Pa=rot(a1,1.0+Math.random()*3,0.15+Math.random()*0.4);
+    Pb=rot(a2,1.0+Math.random()*3,0.15+Math.random()*0.4);
+    scale=60;
+    draw();
+  }
+  function ci(w){var La=inv(Pa),Lb=inv(Pb);return inv(add(La,Lb,w,1-w));}
+  function optW(){var best=0,bd=1e9;for(var i=0;i<=200;i++){var w=i/200;var d=det(ci(w));if(d<bd){bd=d;best=w;}}return best;}
+  function ellipse(P,color,dash){
+    // 1-sigma ellipse via eigen decomposition
+    var a=P[0][0],b=P[0][1],c=P[1][1];
+    var tr=a+c,dd=Math.sqrt(Math.max(0,(a-c)*(a-c)/4+b*b));
+    var l1=tr/2+dd,l2=tr/2-dd;
+    var ang=Math.atan2(l1-a,b);
+    if(Math.abs(b)<1e-9){ang=(a>=c)?0:Math.PI/2;}
+    ctx.save();ctx.translate(cx,cy);ctx.rotate(ang);
+    ctx.beginPath();ctx.ellipse(0,0,Math.sqrt(Math.max(l1,1e-9))*scale,Math.sqrt(Math.max(l2,1e-9))*scale,0,0,Math.PI*2);
+    ctx.strokeStyle=color;ctx.lineWidth=2;
+    if(dash)ctx.setLineDash([6,4]);else ctx.setLineDash([]);
+    ctx.stroke();ctx.restore();
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='#eceef1';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(cx,0);ctx.lineTo(cx,H);ctx.moveTo(0,cy);ctx.lineTo(W,cy);ctx.stroke();
+    var w=parseFloat(sl.value);
+    var Pci=ci(w),Pkf=inv(add(inv(Pa),inv(Pb),1,1));
+    ctx.save();ctx.translate(cx,cy);ctx.restore();
+    ellipse(Pa,'#2c5aa0',false);
+    ellipse(Pb,'#b5761a',false);
+    ellipse(Pkf,'#8a9199',true);
+    // filled CI
+    ctx.save();
+    ellipse(Pci,'#2e7d46',false);
+    ctx.restore();
+    ctx.fillStyle='#6b7178';ctx.font='12px Pretendard, sans-serif';ctx.textAlign='left';
+    ctx.fillText('ω = '+w.toFixed(2)+'   (ω=1 → P_a,  ω=0 → P_b)',12,20);
+    elD.textContent=det(Pci).toFixed(3);elK.textContent=det(Pkf).toFixed(3);
+  }
+  sl.addEventListener('input',function(){wv.textContent=parseFloat(sl.value).toFixed(2);draw();});
+  document.getElementById('ci-opt').addEventListener('click',function(){var w=optW();sl.value=w;wv.textContent=w.toFixed(2);draw();});
+  document.getElementById('ci-new').addEventListener('click',gen);
+  gen();resize();
+})();
+</script>

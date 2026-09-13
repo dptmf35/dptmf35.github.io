@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 340" font-family="Pretendard, 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="arrx" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#8a9199"/>
+    </marker>
+  </defs>
+
+  <!-- shared source -->
+  <rect x="330" y="24" width="200" height="30" rx="15" fill="#e6f4ea" stroke="#b7dcc0"/>
+  <text x="430" y="44" font-size="14" fill="#2e7d46" text-anchor="middle" font-weight="bold">공통 소스 (같은 IMU / 같은 map)</text>
+
+  <!-- two estimators -->
+  <rect x="120" y="110" width="220" height="30" rx="15" fill="#e9f1fb" stroke="#b9d0ec"/>
+  <text x="230" y="130" font-size="14" fill="#2c5aa0" text-anchor="middle" font-weight="bold">추정기 A  (x_a, P_a)</text>
+  <rect x="520" y="110" width="220" height="30" rx="15" fill="#fbeed6" stroke="#e6cfa0"/>
+  <text x="630" y="130" font-size="14" fill="#b5761a" text-anchor="middle" font-weight="bold">추정기 B  (x_b, P_b)</text>
+  <line x1="400" y1="56" x2="260" y2="106" stroke="#8a9199" stroke-width="1.5" marker-end="url(#arrx)"/>
+  <line x1="460" y1="56" x2="600" y2="106" stroke="#8a9199" stroke-width="1.5" marker-end="url(#arrx)"/>
+  <text x="130" y="165" font-size="12" fill="#6b7178">+ 자기만의 센서 (LiDAR)</text>
+  <text x="530" y="165" font-size="12" fill="#6b7178">+ 자기만의 센서 (camera)</text>
+
+  <!-- fusion node -->
+  <rect x="330" y="200" width="200" height="30" rx="15" fill="#f1f2f4" stroke="#c9ccd1"/>
+  <text x="430" y="220" font-size="14" fill="#333" text-anchor="middle" font-weight="bold">Fusion 노드</text>
+  <line x1="260" y1="144" x2="400" y2="196" stroke="#8a9199" stroke-width="1.5" marker-end="url(#arrx)"/>
+  <line x1="600" y1="144" x2="460" y2="196" stroke="#8a9199" stroke-width="1.5" marker-end="url(#arrx)"/>
+
+  <!-- two outcomes -->
+  <rect x="40" y="256" width="370" height="70" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="56" y="278" font-size="13" fill="#b5761a" font-weight="bold">독립 가정 (KF식 덧셈)</text>
+  <text x="56" y="298" font-size="12" fill="#6b7178">P⁻¹ = P_a⁻¹ + P_b⁻¹ : 공통 소스의 정보가 두 번 더해진다</text>
+  <text x="56" y="316" font-size="12" fill="#6b7178">→ P가 실제 오차보다 작음 (overconfident, inconsistent)</text>
+  <rect x="450" y="256" width="370" height="70" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="466" y="278" font-size="13" fill="#2e7d46" font-weight="bold">Covariance Intersection</text>
+  <text x="466" y="298" font-size="12" fill="#6b7178">P⁻¹ = ω P_a⁻¹ + (1−ω) P_b⁻¹ : 정보를 "나눠" 더한다</text>
+  <text x="466" y="316" font-size="12" fill="#6b7178">→ 상관이 무엇이든 P ≥ 실제 오차 (consistent)</text>
+</svg>

@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 340" font-family="Pretendard, 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="arrm" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#8a9199"/>
+    </marker>
+  </defs>
+
+  <!-- axis: knowledge of correlation -->
+  <line x1="60" y1="60" x2="800" y2="60" stroke="#8a9199" stroke-width="1.5" marker-end="url(#arrm)"/>
+  <text x="60" y="48" font-size="12" fill="#6b7178">교차 covariance P_ab를</text>
+  <text x="640" y="48" font-size="12" fill="#6b7178">P_ab에 대해 아는 것이 없음</text>
+  <text x="200" y="48" font-size="12" fill="#6b7178">정확히 앎</text>
+  <text x="420" y="48" font-size="12" fill="#6b7178">일부만 앎</text>
+
+  <!-- known: KF / Bar-Shalom Campo -->
+  <rect x="20" y="90" width="250" height="30" rx="15" fill="#e9f1fb" stroke="#b9d0ec"/>
+  <text x="145" y="110" font-size="14" fill="#2c5aa0" text-anchor="middle" font-weight="bold">정확한 fusion</text>
+  <rect x="20" y="132" width="250" height="170" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="36" y="158" font-size="13" fill="#333">P_ab = 0 (독립)</text>
+  <text x="36" y="176" font-size="12" fill="#6b7178">Kalman/information 덧셈 (1·2편)</text>
+  <text x="36" y="206" font-size="13" fill="#333">P_ab 를 앎</text>
+  <text x="36" y="224" font-size="12" fill="#6b7178">Bar-Shalom–Campo 공식</text>
+  <text x="36" y="242" font-size="12" fill="#6b7178">(P_ab를 포함한 최적 선형 결합)</text>
+  <text x="36" y="276" font-size="12" fill="#2c5aa0">가장 tight, 단 P_ab가 틀리면 inconsistent</text>
+
+  <!-- partial: split CI -->
+  <rect x="305" y="90" width="250" height="30" rx="15" fill="#e6f4ea" stroke="#b7dcc0"/>
+  <text x="430" y="110" font-size="14" fill="#2e7d46" text-anchor="middle" font-weight="bold">부분 정보 활용</text>
+  <rect x="305" y="132" width="250" height="170" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="321" y="158" font-size="13" fill="#333">Split CI</text>
+  <text x="321" y="176" font-size="12" fill="#6b7178">P = P^i (독립 부분) + P^d (상관 가능 부분)</text>
+  <text x="321" y="194" font-size="12" fill="#6b7178">독립 부분은 그대로 더하고</text>
+  <text x="321" y="212" font-size="12" fill="#6b7178">상관 가능 부분에만 CI 적용</text>
+  <text x="321" y="242" font-size="13" fill="#333">Inverse CI (ICI)</text>
+  <text x="321" y="260" font-size="12" fill="#6b7178">공통 정보량을 추정해 한 번만 빼 줌</text>
+  <text x="321" y="286" font-size="12" fill="#2e7d46">CI보다 덜 보수적, 여전히 consistent</text>
+
+  <!-- unknown: CI -->
+  <rect x="590" y="90" width="250" height="30" rx="15" fill="#fbeed6" stroke="#e6cfa0"/>
+  <text x="715" y="110" font-size="14" fill="#b5761a" text-anchor="middle" font-weight="bold">보수적 fusion</text>
+  <rect x="590" y="132" width="250" height="170" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="606" y="158" font-size="13" fill="#333">Covariance Intersection</text>
+  <text x="606" y="176" font-size="12" fill="#6b7178">P⁻¹ = ω P_a⁻¹ + (1−ω) P_b⁻¹</text>
+  <text x="606" y="194" font-size="12" fill="#6b7178">어떤 P_ab에 대해서도 consistent</text>
+  <text x="606" y="224" font-size="13" fill="#333">Fast CI</text>
+  <text x="606" y="242" font-size="12" fill="#6b7178">ω를 trace 비율 등으로 닫힌 형태 근사</text>
+  <text x="606" y="286" font-size="12" fill="#b5761a">가장 안전, 대신 정보를 버림</text>
+
+  <!-- bottom -->
+  <text x="430" y="328" font-size="12" fill="#333" text-anchor="middle">오른쪽으로 갈수록 가정이 적고 결과 covariance가 크다. 아는 만큼만 왼쪽으로 가는 것이 원칙이다.</text>
+</svg>
