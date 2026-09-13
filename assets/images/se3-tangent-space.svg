@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 400" font-family="Pretendard, 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="arrs" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#8a9199"/>
+    </marker>
+    <marker id="arrb" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#2c5aa0"/>
+    </marker>
+    <marker id="arro" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#b5761a"/>
+    </marker>
+  </defs>
+
+  <!-- manifold (curved surface) -->
+  <path d="M60,300 C200,120 420,120 560,300 C420,340 200,340 60,300 Z" fill="#f6f7f9" stroke="#c9ccd1" stroke-width="1.5"/>
+  <text x="120" y="325" font-size="13" fill="#6b7178">manifold  SE(3)  (곡면)</text>
+
+  <!-- point T hat -->
+  <circle cx="310" cy="210" r="6" fill="#333"/>
+  <text x="318" y="204" font-size="14" fill="#333" font-weight="bold">T̂ (현재 추정)</text>
+
+  <!-- tangent plane -->
+  <path d="M170,170 L420,150 L450,250 L200,270 Z" fill="#e9f1fb" fill-opacity="0.55" stroke="#b9d0ec" stroke-width="1.5"/>
+  <text x="185" y="165" font-size="13" fill="#2c5aa0" font-weight="bold">tangent space  se(3) ≅ ℝ⁶</text>
+
+  <!-- gaussian ellipse on tangent plane -->
+  <ellipse cx="310" cy="210" rx="70" ry="26" transform="rotate(-6 310 210)" fill="none" stroke="#2c5aa0" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="240" y="250" font-size="12" fill="#2c5aa0">ξ ~ N(0, Σ)  (6×6 covariance)</text>
+
+  <!-- perturbed point on manifold -->
+  <circle cx="400" cy="232" r="5" fill="#b5761a"/>
+  <text x="408" y="246" font-size="13" fill="#b5761a" font-weight="bold">T = T̂ exp(ξ^)</text>
+
+  <!-- exp / log arrows -->
+  <path d="M330,200 C360,190 385,205 396,226" fill="none" stroke="#b5761a" stroke-width="1.8" marker-end="url(#arro)"/>
+  <text x="352" y="186" font-size="12" fill="#b5761a">exp: 벡터 → pose</text>
+  <path d="M392,240 C372,250 340,240 322,222" fill="none" stroke="#2c5aa0" stroke-width="1.8" marker-end="url(#arrb)"/>
+  <text x="330" y="270" font-size="12" fill="#2c5aa0">log: pose → 벡터</text>
+
+  <!-- right box -->
+  <rect x="590" y="40" width="250" height="30" rx="15" fill="#e6f4ea" stroke="#b7dcc0"/>
+  <text x="715" y="60" font-size="14" fill="#2e7d46" text-anchor="middle" font-weight="bold">핵심 아이디어</text>
+  <rect x="590" y="82" width="250" height="280" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="606" y="108" font-size="12" fill="#333">· pose 자체엔 Gaussian을 못 씌운다</text>
+  <text x="606" y="126" font-size="12" fill="#6b7178">  (회전은 벡터공간이 아님)</text>
+  <text x="606" y="154" font-size="12" fill="#333">· 대신 추정치 T̂ 주변의 접평면에</text>
+  <text x="606" y="172" font-size="12" fill="#333">  6차원 Gaussian ξ를 놓고</text>
+  <text x="606" y="190" font-size="12" fill="#333">  exp로 곡면에 얹는다</text>
+  <text x="606" y="218" font-size="12" fill="#333">· 평균 = T̂ (곡면 위의 점)</text>
+  <text x="606" y="236" font-size="12" fill="#333">· covariance = Σ (접평면 위 6×6)</text>
+  <text x="606" y="264" font-size="12" fill="#6b7178">· ξ = [ρ; φ]: 이동 3 + 회전 3</text>
+  <text x="606" y="282" font-size="12" fill="#6b7178">· 접평면은 T̂마다 다르므로</text>
+  <text x="606" y="300" font-size="12" fill="#6b7178">  다른 점의 Σ와 비교하려면</text>
+  <text x="606" y="318" font-size="12" fill="#6b7178">  adjoint로 옮겨야 한다</text>
+  <text x="606" y="346" font-size="12" fill="#2e7d46">→ 1·2편의 모든 식을 ξ 위에서 그대로 쓴다</text>
+</svg>
