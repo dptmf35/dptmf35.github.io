@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 400" font-family="Pretendard, 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="arrd" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#8a9199"/>
+    </marker>
+  </defs>
+
+  <!-- covariance column -->
+  <rect x="20" y="20" width="370" height="30" rx="15" fill="#e9f1fb" stroke="#b9d0ec"/>
+  <text x="205" y="40" font-size="14" fill="#2c5aa0" text-anchor="middle" font-weight="bold">Covariance form  (μ, Σ)</text>
+  <rect x="20" y="62" width="370" height="250" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="36" y="92" font-size="13" fill="#333" font-weight="bold">쉬운 연산</text>
+  <text x="36" y="116" font-size="12" fill="#6b7178">· marginalization: 관심 없는 변수의 행·열을 그냥 지운다</text>
+  <text x="36" y="136" font-size="12" fill="#6b7178">· 선형 변환 전파: Σ' = A Σ Aᵀ</text>
+  <text x="36" y="156" font-size="12" fill="#6b7178">· 샘플링, 타원 그리기, "얼마나 모르는지" 읽기</text>
+  <text x="36" y="190" font-size="13" fill="#333" font-weight="bold">어려운 연산</text>
+  <text x="36" y="214" font-size="12" fill="#6b7178">· conditioning(관측 반영): Schur complement 필요</text>
+  <text x="36" y="234" font-size="12" fill="#6b7178">· 독립 추정 두 개 합치기: 역행렬 두 번</text>
+  <text x="36" y="268" font-size="13" fill="#333" font-weight="bold">표현할 수 없는 것</text>
+  <text x="36" y="292" font-size="12" fill="#6b7178">· "전혀 모름" (Σ = ∞)</text>
+
+  <!-- information column -->
+  <rect x="470" y="20" width="370" height="30" rx="15" fill="#fbeed6" stroke="#e6cfa0"/>
+  <text x="655" y="40" font-size="14" fill="#b5761a" text-anchor="middle" font-weight="bold">Information form  (η, Λ)</text>
+  <rect x="470" y="62" width="370" height="250" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="486" y="92" font-size="13" fill="#333" font-weight="bold">쉬운 연산</text>
+  <text x="486" y="116" font-size="12" fill="#6b7178">· conditioning: 관측된 변수의 행·열을 그냥 지운다</text>
+  <text x="486" y="136" font-size="12" fill="#6b7178">· 독립 정보 fusion: Λ = Λ₁ + Λ₂, η = η₁ + η₂</text>
+  <text x="486" y="156" font-size="12" fill="#6b7178">· sparse 구조 유지 (factor graph의 인접 행렬)</text>
+  <text x="486" y="190" font-size="13" fill="#333" font-weight="bold">어려운 연산</text>
+  <text x="486" y="214" font-size="12" fill="#6b7178">· marginalization: Schur complement 필요 (fill-in 발생)</text>
+  <text x="486" y="234" font-size="12" fill="#6b7178">· 평균 μ를 읽으려면 Λ⁻¹η 를 풀어야 함</text>
+  <text x="486" y="268" font-size="13" fill="#333" font-weight="bold">표현할 수 있는 것</text>
+  <text x="486" y="292" font-size="12" fill="#6b7178">· "전혀 모름" (Λ = 0), 특정 방향만 모름 (rank 부족)</text>
+
+  <!-- inverse arrows -->
+  <line x1="392" y1="150" x2="466" y2="150" stroke="#8a9199" stroke-width="1.5" marker-end="url(#arrd)"/>
+  <line x1="466" y1="200" x2="392" y2="200" stroke="#8a9199" stroke-width="1.5" marker-end="url(#arrd)"/>
+  <text x="429" y="142" font-size="12" fill="#6b7178" text-anchor="middle">Λ = Σ⁻¹</text>
+  <text x="429" y="216" font-size="12" fill="#6b7178" text-anchor="middle">Σ = Λ⁻¹</text>
+
+  <!-- bottom note -->
+  <rect x="20" y="330" width="820" height="52" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="36" y="352" font-size="12" fill="#333">두 표현은 같은 Gaussian이다. 각 표현에서 "쉬운" 연산은 상대 표현에서 "어려운" 연산과 정확히 뒤바뀐다(Schur complement 이중성).</text>
+  <text x="36" y="372" font-size="12" fill="#6b7178">Kalman filter는 covariance form, 정보 filter와 graph SLAM은 information form을 기본으로 쓴다.</text>
+</svg>
