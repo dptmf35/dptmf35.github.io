@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 380" font-family="Pretendard, 'Malgun Gothic', sans-serif">
+  <defs>
+    <marker id="arrk" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0,0 L8,4 L0,8 z" fill="#8a9199"/>
+    </marker>
+  </defs>
+
+  <!-- predict -->
+  <rect x="40" y="30" width="340" height="30" rx="15" fill="#e9f1fb" stroke="#b9d0ec"/>
+  <text x="210" y="50" font-size="14" fill="#2c5aa0" text-anchor="middle" font-weight="bold">Prediction (motion model)</text>
+  <rect x="40" y="72" width="340" height="150" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="56" y="98" font-size="12" fill="#6b7178">입력: 이전 사후 (x̂ₖ₋₁, Pₖ₋₁), 제어 uₖ</text>
+  <text x="56" y="126" font-size="13" fill="#333">x̄ₖ = F x̂ₖ₋₁ + B uₖ</text>
+  <text x="56" y="150" font-size="13" fill="#333">P̄ₖ = F Pₖ₋₁ Fᵀ + Q</text>
+  <text x="56" y="180" font-size="12" fill="#6b7178">평균은 모델로 밀고, covariance는</text>
+  <text x="56" y="198" font-size="12" fill="#6b7178">선형 전파 + process noise Q 만큼 커진다</text>
+
+  <!-- update -->
+  <rect x="480" y="30" width="340" height="30" rx="15" fill="#fbeed6" stroke="#e6cfa0"/>
+  <text x="650" y="50" font-size="14" fill="#b5761a" text-anchor="middle" font-weight="bold">Update (measurement model)</text>
+  <rect x="480" y="72" width="340" height="150" rx="10" fill="none" stroke="#c9ccd1" stroke-dasharray="5 4"/>
+  <text x="496" y="98" font-size="12" fill="#6b7178">입력: 예측 (x̄ₖ, P̄ₖ), 측정 zₖ</text>
+  <text x="496" y="126" font-size="13" fill="#333">Kₖ = P̄ₖ Hᵀ (H P̄ₖ Hᵀ + R)⁻¹</text>
+  <text x="496" y="150" font-size="13" fill="#333">x̂ₖ = x̄ₖ + Kₖ (zₖ − H x̄ₖ)</text>
+  <text x="496" y="174" font-size="13" fill="#333">Pₖ = (I − Kₖ H) P̄ₖ</text>
+  <text x="496" y="200" font-size="12" fill="#6b7178">innovation에 gain을 곱해 보정, covariance는 줄어든다</text>
+
+  <!-- arrows -->
+  <line x1="382" y1="120" x2="476" y2="120" stroke="#8a9199" stroke-width="1.5" marker-end="url(#arrk)"/>
+  <text x="429" y="112" font-size="11" fill="#6b7178" text-anchor="middle">(x̄ₖ, P̄ₖ)</text>
+  <path d="M650,224 L650,262 L210,262 L210,226" fill="none" stroke="#8a9199" stroke-width="1.5" marker-end="url(#arrk)"/>
+  <text x="430" y="278" font-size="11" fill="#6b7178" text-anchor="middle">(x̂ₖ, Pₖ) → 다음 스텝의 prior,  k ← k + 1</text>
+
+  <!-- information form note -->
+  <rect x="40" y="300" width="780" height="62" rx="10" fill="#f6f7f9" stroke="#c9ccd1"/>
+  <text x="56" y="322" font-size="13" fill="#333" font-weight="bold">Information form에서 본 update</text>
+  <text x="56" y="344" font-size="12" fill="#6b7178">Λₖ = P̄ₖ⁻¹ + Hᵀ R⁻¹ H,   ηₖ = P̄ₖ⁻¹ x̄ₖ + Hᵀ R⁻¹ zₖ   →   prior 정보 + 측정 정보의 덧셈 (1편 §3.4). Kalman gain 식은 이것을 Woodbury 항등식으로 바꿔 쓴 것</text>
+</svg>

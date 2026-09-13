@@ -1,0 +1,130 @@
+<style>
+.kf-card{border:1px solid #e2e5ea;border-radius:14px;padding:18px 18px 14px;margin:22px 0;background:#fbfcfd;font-family:Pretendard,'Malgun Gothic',sans-serif;color:#333}
+.kf-title{font-size:15px;font-weight:600;color:#2c5aa0;margin:0 0 4px}
+.kf-sub{font-size:13px;color:#6b7178;margin:0 0 12px}
+.kf-canvas-wrap{position:relative;width:100%;background:#fff;border:1px solid #eceef1;border-radius:10px;overflow:hidden}
+.kf-canvas-wrap canvas{display:block;width:100%;height:auto}
+.kf-controls{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:12px;font-size:13px}
+.kf-btn{border:1px solid #b9d0ec;background:#e9f1fb;color:#2c5aa0;border-radius:8px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit}
+.kf-btn:hover{background:#dceaf6}
+.kf-btn.sec{border-color:#d5d8dd;background:#f1f2f4;color:#555}
+.kf-btn.sec:hover{background:#e8e9ec}
+.kf-sl{display:flex;align-items:center;gap:6px}
+.kf-sl input{width:120px}
+.kf-stat{display:flex;gap:18px;flex-wrap:wrap;margin-left:auto;font-size:13px}
+.kf-stat b{font-family:'SFMono-Regular',Consolas,monospace;color:#2e7d46;font-weight:700}
+.kf-legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:10px;font-size:12px;color:#6b7178}
+.kf-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;vertical-align:middle}
+.kf-line{display:inline-block;width:18px;height:3px;margin-right:5px;vertical-align:middle}
+</style>
+
+<div class="kf-card">
+  <p class="kf-title">1D Kalman filter: 노이즈 낀 위치 측정에서 위치·속도 추정</p>
+  <p class="kf-sub">물체가 1차원 위를 등속으로 움직이고(가끔 가속 노이즈), 매 스텝 노이즈 낀 위치 측정이 들어온다. 측정 노이즈 R과 process noise Q를 바꿔 보면 Kalman gain K와 추정의 ±2σ 띠가 어떻게 변하는지 볼 수 있다.</p>
+  <div class="kf-canvas-wrap"><canvas id="kf-cv"></canvas></div>
+  <div class="kf-controls">
+    <button class="kf-btn" id="kf-play">▶ 재생</button>
+    <button class="kf-btn sec" id="kf-reset">↺ 리셋</button>
+    <label class="kf-sl">측정 노이즈 σ_R <input type="range" id="kf-r" min="0.2" max="4" step="0.1" value="1.5"><span id="kf-rv">1.5</span></label>
+    <label class="kf-sl">process noise σ_Q <input type="range" id="kf-q" min="0.01" max="1" step="0.01" value="0.1"><span id="kf-qv">0.10</span></label>
+    <div class="kf-stat">
+      <span>t = <b id="kf-t">0</b></span>
+      <span>K(위치) = <b id="kf-k">–</b></span>
+      <span>σ(위치) = <b id="kf-s">–</b></span>
+    </div>
+  </div>
+  <div class="kf-legend">
+    <span><i class="kf-line" style="background:#333"></i>참 위치</span>
+    <span><i class="kf-dot" style="background:#b5761a"></i>측정 z</span>
+    <span><i class="kf-line" style="background:#2c5aa0"></i>KF 추정 x̂</span>
+    <span><i class="kf-dot" style="background:#e9f1fb;border:1px solid #b9d0ec"></i>±2σ 띠</span>
+  </div>
+</div>
+
+<script>
+(function(){
+  var cv=document.getElementById('kf-cv'),ctx=cv.getContext('2d');
+  var elT=document.getElementById('kf-t'),elK=document.getElementById('kf-k'),elS=document.getElementById('kf-s');
+  var slR=document.getElementById('kf-r'),slQ=document.getElementById('kf-q'),vR=document.getElementById('kf-rv'),vQ=document.getElementById('kf-qv');
+  var W=680,H=340,DPR=Math.max(1,window.devicePixelRatio||1);
+  function resize(){var w=cv.parentNode.clientWidth||W;var s=w/W;cv.style.height=(H*s)+'px';cv.width=Math.round(W*s*DPR);cv.height=Math.round(H*s*DPR);ctx.setTransform(cv.width/W,0,0,cv.height/H,0,0);draw();}
+  window.addEventListener('resize',resize);
+
+  var N=120,dt=1;
+  var truth=[],meas=[],est=[],sig=[],gains=[];
+  var x,P,tx,tv,k,playing=false,timer=null;
+
+  function randn(){var u=0,v=0;while(u===0)u=Math.random();while(v===0)v=Math.random();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+
+  function reset(){
+    truth=[];meas=[];est=[];sig=[];gains=[];k=0;
+    tx=0;tv=0.4;
+    x=[0,0];P=[[25,0],[0,4]];
+    stopPlay();draw();
+  }
+  function step(){
+    if(k>=N){stopPlay();return;}
+    var sR=parseFloat(slR.value),sQ=parseFloat(slQ.value);
+    // truth: constant velocity with random acceleration
+    var a=sQ*randn();
+    tx=tx+tv*dt+0.5*a*dt*dt; tv=tv+a*dt;
+    var z=tx+sR*randn();
+    // predict: F=[[1,dt],[0,1]], Q from acceleration noise
+    var xp=[x[0]+x[1]*dt, x[1]];
+    var q=sQ*sQ;
+    var Q=[[0.25*dt*dt*dt*dt*q,0.5*dt*dt*dt*q],[0.5*dt*dt*dt*q,dt*dt*q]];
+    var Pp=[[P[0][0]+dt*(P[1][0]+P[0][1])+dt*dt*P[1][1]+Q[0][0], P[0][1]+dt*P[1][1]+Q[0][1]],
+            [P[1][0]+dt*P[1][1]+Q[1][0], P[1][1]+Q[1][1]]];
+    // update with H=[1,0]
+    var S=Pp[0][0]+sR*sR;
+    var K=[Pp[0][0]/S, Pp[1][0]/S];
+    var y=z-xp[0];
+    x=[xp[0]+K[0]*y, xp[1]+K[1]*y];
+    P=[[(1-K[0])*Pp[0][0], (1-K[0])*Pp[0][1]],[Pp[1][0]-K[1]*Pp[0][0], Pp[1][1]-K[1]*Pp[0][1]]];
+    truth.push(tx);meas.push(z);est.push(x[0]);sig.push(Math.sqrt(Math.max(P[0][0],0)));gains.push(K[0]);
+    k++;
+    elT.textContent=k;elK.textContent=K[0].toFixed(2);elS.textContent=Math.sqrt(P[0][0]).toFixed(2);
+    draw();
+  }
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    var L=44,Rm=16,T=16,B=30;
+    var pw=W-L-Rm,ph=H-T-B;
+    // y range
+    var lo=-6,hi=6;
+    for(var i=0;i<truth.length;i++){lo=Math.min(lo,truth[i]-2,meas[i]-1,est[i]-2*sig[i]-1);hi=Math.max(hi,truth[i]+2,meas[i]+1,est[i]+2*sig[i]+1);}
+    function X(i){return L+pw*i/(N-1);}
+    function Y(v){return T+ph*(1-(v-lo)/(hi-lo));}
+    // axes
+    ctx.strokeStyle='#e4e6e8';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(L,T);ctx.lineTo(L,T+ph);ctx.lineTo(L+pw,T+ph);ctx.stroke();
+    ctx.fillStyle='#6b7178';ctx.font='11px Pretendard, sans-serif';ctx.textAlign='center';
+    ctx.fillText('time step',L+pw/2,H-8);
+    ctx.save();ctx.translate(12,T+ph/2);ctx.rotate(-Math.PI/2);ctx.fillText('position',0,0);ctx.restore();
+    if(truth.length===0){ctx.fillStyle='#8a9199';ctx.font='13px Pretendard, sans-serif';ctx.fillText('▶ 재생을 눌러 시작',L+pw/2,T+ph/2);return;}
+    // band
+    ctx.beginPath();
+    for(var i=0;i<est.length;i++){var yy=Y(est[i]+2*sig[i]);if(i===0)ctx.moveTo(X(i),yy);else ctx.lineTo(X(i),yy);}
+    for(var i=est.length-1;i>=0;i--){ctx.lineTo(X(i),Y(est[i]-2*sig[i]));}
+    ctx.closePath();ctx.fillStyle='rgba(185,208,236,0.35)';ctx.fill();
+    // truth
+    ctx.strokeStyle='#333';ctx.lineWidth=1.5;ctx.beginPath();
+    for(var i=0;i<truth.length;i++){if(i===0)ctx.moveTo(X(i),Y(truth[i]));else ctx.lineTo(X(i),Y(truth[i]));}
+    ctx.stroke();
+    // meas
+    ctx.fillStyle='#b5761a';
+    for(var i=0;i<meas.length;i++){ctx.beginPath();ctx.arc(X(i),Y(meas[i]),2.4,0,Math.PI*2);ctx.fill();}
+    // est
+    ctx.strokeStyle='#2c5aa0';ctx.lineWidth=2;ctx.beginPath();
+    for(var i=0;i<est.length;i++){if(i===0)ctx.moveTo(X(i),Y(est[i]));else ctx.lineTo(X(i),Y(est[i]));}
+    ctx.stroke();
+  }
+  function startPlay(){if(playing)return;playing=true;document.getElementById('kf-play').textContent='❚❚ 일시정지';timer=setInterval(step,90);}
+  function stopPlay(){playing=false;document.getElementById('kf-play').textContent='▶ 재생';if(timer){clearInterval(timer);timer=null;}}
+  document.getElementById('kf-play').addEventListener('click',function(){if(playing)stopPlay();else{if(k>=N)reset();startPlay();}});
+  document.getElementById('kf-reset').addEventListener('click',reset);
+  slR.addEventListener('input',function(){vR.textContent=parseFloat(slR.value).toFixed(1);});
+  slQ.addEventListener('input',function(){vQ.textContent=parseFloat(slQ.value).toFixed(2);});
+  reset();resize();
+})();
+</script>
